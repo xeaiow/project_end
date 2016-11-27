@@ -119,6 +119,44 @@ class Meet_model extends CI_Model {
         return $this->mongo_db->insert('groups', $data);
     }
 
+    // 儲存我管理的社團內的貼文
+    public function set_groups_feed () {
+
+        $id         = $_POST['id'];
+        $message    = $_POST['message'];
+        $user       = $this->session->userdata('rndcode');
+
+        $data = array(
+            'id'        => $id,
+            'message'   => $message,
+            'username'  => $user,
+        );
+
+        return $this->mongo_db->insert('groups_feed', $data);
+    }
+
+    // 儲存我打卡/備標記過的地方
+    public function set_place () {
+
+        $post_id    = $_POST['post_id'];
+        $locat_id   = $_POST['locat_id'];
+        $name       = $_POST['name'];
+        $lat        = $_POST['lat'];
+        $lng        = $_POST['lng'];
+        $user       = $this->session->userdata('rndcode');
+
+        $data = array(
+            'post_id'  => $post_id,
+            'locat_id' => $locat_id,
+            'name'     => $name,
+            'lat'      => $lat,
+            'lng'      => $lng,
+            'username' => $user,
+        );
+
+        return $this->mongo_db->insert('place', $data);
+    }
+
     // 儲存使用者喜愛的影片
     public function set_video () {
 
@@ -186,6 +224,7 @@ class Meet_model extends CI_Model {
         $website    = $_POST['website'];
         $location   = $_POST['location'];
         $cover      = $_POST['cover'];
+        $user       = $this->session->userdata('rndcode');
 
         $data   = array(
             'id'         =>  $id,
@@ -195,7 +234,45 @@ class Meet_model extends CI_Model {
             'website'    =>  $website,
             'location'   =>  $location,
             'cover'      =>  $cover,
+            'username'   =>  $user,
         );
         return $this->mongo_db->insert('fansInfo', $data);
     }
+
+    // 取得該使用者關鍵字
+    public function get_keywords_events () {
+
+        $id = $_POST['id']; // userId
+        $query = $this->mongo_db->where('username', $id);
+        return $query->get('events_h');
+    }
+
+    public function get_keywords_accounts () {
+
+        $id = $_POST['id']; // userId
+        $query = $this->mongo_db->where('username', $id);
+        return $query->get('accounts_h');
+    }
+
+    public function get_keywords_fansinfo () {
+
+        $id = $_POST['id']; // userId
+        $query = $this->mongo_db->where('username', $id);
+        return $query->get('fansInfo_h');
+    }
+
+    public function get_keywords_posts () {
+
+        $id = $_POST['id']; // userId
+        $query = $this->mongo_db->where('username', $id);
+        return $query->get('posts_h');
+    }
+
+    public function get_keywords_videos () {
+
+        $id = $_POST['id']; // userId
+        $query = $this->mongo_db->where('username', $id);
+        return $query->get('videos_h');
+    }
+
 }

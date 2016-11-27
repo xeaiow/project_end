@@ -93,7 +93,7 @@
 
 
                 <tr>
-                    <td class="table-th">喜歡的書籍</td>
+                    <td class="table-th">我的專業</td>
                     <td>
                         <div class="ui form" id="profile-edit-signature">
                             <div class="field">
@@ -390,7 +390,7 @@ $("#profile-edit-password-setup").click(function(){
     $("#lab").click(function() {
         FB.login(function(response) {
             if (response.authResponse) {
-                lab();
+                place();
             }
         });
     });
@@ -491,24 +491,26 @@ $("#profile-edit-password-setup").click(function(){
         FB.api("me/videos?fields=description,place,permalink_url", function(details) {
             var response = $.parseJSON(JSON.stringify(details));
             $.each(response.data, function(i){
-                $.ajax({
-                    type: 'post',
-                    url: '//localhost/meet/meet/videos/save',
-                    dataType: 'json',
-                    data: {
-                        id              : response.data[i].id,
-                        description     : cancelLn(response.data[i].description),
-                        permalink_url   : response.data[i].permalink_url,
-                        place           : (response.data[i].place == undefined ? '' : response.data[i].place.name),
-                    },
-                    error: function (xhr) {
-                        errorMsg();
-                    },
-                    success: function (response) {
-                        var response = $.parseJSON(JSON.stringify(response));
-                        (response.status == true ? success() : failed());
-                    }
-                });
+                if (response.data[i].description != null) {
+                    $.ajax({
+                        type: 'post',
+                        url: '//localhost/meet/meet/videos/save',
+                        dataType: 'json',
+                        data: {
+                            id              : response.data[i].id,
+                            description     : cancelLn(response.data[i].description),
+                            permalink_url   : response.data[i].permalink_url,
+                            place           : (response.data[i].place == undefined ? '' : response.data[i].place.name),
+                        },
+                        error: function (xhr) {
+                            errorMsg();
+                        },
+                        success: function (response) {
+                            var response = $.parseJSON(JSON.stringify(response));
+                            (response.status == true ? success() : failed());
+                        }
+                    });
+                }
                 videos_comments(response.data[i].id);
             });
         });
@@ -548,32 +550,30 @@ $("#profile-edit-password-setup").click(function(){
         FB.api("me/?fields=feed.limit(10000)", function(details) {
             var response = $.parseJSON(JSON.stringify(details));
             $.each(response.feed.data, function(i){
-                $.ajax({
-                    type: 'post',
-                    url: '//localhost/meet/meet/posts/save',
-                    dataType: 'json',
-                    data: {
-                        id              : response.feed.data[i].id,
-                        story           : ( response.feed.data[i].story == null ? '' : response.feed.data[i].story ),
-                        message         : ( response.feed.data[i].message == null ? '' : response.feed.data[i].message.replace(/(?:\r\n|\r|\n)/g, '，') ),
-                        createdtime     : response.feed.data[i].created_time,
-                    },
-                    error: function (xhr) {
-                        errorMsg();
-                    },
-                    success: function (response) {
-                        var response = $.parseJSON(JSON.stringify(response));
-                        (response.status == true ? success() : failed());
-                    }
-                });
+                if (response.feed.data[i].message != null) {
+                    $.ajax({
+                        type: 'post',
+                        url: '//localhost/meet/meet/posts/save',
+                        dataType: 'json',
+                        data: {
+                            id              : response.feed.data[i].id,
+                            story           : ( response.feed.data[i].story == null ? '' : response.feed.data[i].story ),
+                            message         : ( response.feed.data[i].message == null ? '' : response.feed.data[i].message.replace(/(?:\r\n|\r|\n)/g, '，') ),
+                            createdtime     : response.feed.data[i].created_time,
+                        },
+                        error: function (xhr) {
+                            errorMsg();
+                        },
+                        success: function (response) {
+                            var response = $.parseJSON(JSON.stringify(response));
+                            (response.status == true ? success() : failed());
+                        }
+                    });
+                }
             });
         });
     }
 
-    // 取得我的某篇貼文的回覆
-    function postsComments () {
-        // ex. 160805604264651_321907971487746?fields=comments
-    }
 
     // 取得我管理的粉專
     function accounts () {
@@ -624,6 +624,62 @@ $("#profile-edit-password-setup").click(function(){
                         (response.status == true ? success() : failed());
                     }
                 });
+                groups_feed(response.data[i].id);
+            });
+        });
+    }
+
+    // 取得我管理的社團
+    function groups_feed (id) {
+        FB.api(id + "/feed?fields=message", function(details) {
+            var response = $.parseJSON(JSON.stringify(details));
+            $.each(response.data, function(i){
+                $.ajax({
+                    type: 'post',
+                    url: '//localhost/meet/meet/groups_feed/save',
+                    dataType: 'json',
+                    data: {
+                        id       : response.data[i].id, // 編號
+                        message  : cancelSp(response.data[i].message), // 貼文內容
+                    },
+                    error: function (xhr) {
+                        errorMsg();
+                    },
+                    success: function (response) {
+                        var response = $.parseJSON(JSON.stringify(response));
+                        (response.status == true ? success() : failed());
+                    }
+                });
+            });
+        });
+    }
+
+    // 取得我打卡過的地方
+    function place () {
+        FB.api("me/feed?fields=place&limit=5000", function(details) {
+            var response = $.parseJSON(JSON.stringify(details));
+            $.each(response.data, function(i){
+                if (response.data[i].place != undefined) {
+                    $.ajax({
+                        type: 'post',
+                        url: '//localhost/meet/meet/place/save',
+                        dataType: 'json',
+                        data: {
+                            post_id  : response.data[i].id, // 貼文編號
+                            locat_id : response.data[i].place.id, // 地標編號
+                            name     : response.data[i].place.name, // 地標名稱
+                            lat      : response.data[i].place.location.latitude, // 緯
+                            lng      : response.data[i].place.location.longitude, // 經
+                        },
+                        error: function (xhr) {
+                            errorMsg();
+                        },
+                        success: function (response) {
+                            var response = $.parseJSON(JSON.stringify(response));
+                            (response.status == true ? success() : failed());
+                        }
+                    });
+                }
             });
         });
     }

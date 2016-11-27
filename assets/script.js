@@ -36,6 +36,10 @@ function cancelLn (str) {
 	return str.replace(/(?:\r\n|\r|\n)/g, '，');
 }
 
+function cancelSp (str) {
+	return str.replace(/(?:\r\n|\r|\n)/g, ' ');
+}
+
 // Get gender function
 function gender(g) {
 
@@ -392,6 +396,64 @@ function load_vote_result_item (id) {
 		}
 	});
 }
+
+function loadkeywords (id) {
+
+	$.ajax({
+		type: 'post',
+		url: '//localhost/meet/meet/keywords/query',
+		dataType: 'json',
+		data: {
+			id : id,
+		},
+		error: function (xhr) {
+			errorMsg();
+		},
+		success: function (response) {
+			var response = $.parseJSON(JSON.stringify(response));
+
+			if (response.status == true) {
+
+				// events
+				for (var i = 0; i < response.events.length; i++) {
+					for (var j = 0; j < response.events[i].name.length; j++) {
+						$("#keywords").append('<a class="ui basic label">' + response.events[i].name[j].word + '</a>');
+						console.log(response.events[i].name[j].word);
+					}
+				}
+
+				// accounts
+				for (var i = 0; i < response.accounts.length; i++) {
+					for (var j = 0; j < response.accounts[i].name.length; j++) {
+						$("#keywords").append('<a class="ui basic label">' + response.accounts[i].name[j].word + '</a>');
+					}
+				}
+
+				// fansInfo
+				for (var i = 0; i < response.fansinfo.length; i++) {
+					for (var j = 0; j < response.fansinfo[i].name.length; j++) {
+						$("#keywords").append('<a class="ui basic label">' + response.fansinfo[i].name[j].word + '</a>');
+					}
+				}
+
+				// posts
+				for (var i = 0; i < response.posts.length; i++) {
+					for (var j = 0; j < response.posts[i].name.length; j++) {
+						$("#keywords").append('<a class="ui basic label">' + response.posts[i].name[j].word + '</a>');
+					}
+				}
+
+				// videos
+				for (var i = 0; i < response.videos.length; i++) {
+					for (var j = 0; j < response.videos[i].name.length; j++) {
+						$("#keywords").append('<a class="ui basic label">' + response.videos[i].name[j].word + '</a>');
+					}
+				}
+			}
+		}
+	});
+}
+
 
 // 載入可投票競賽內的項目
 function loadvote_item (id) {

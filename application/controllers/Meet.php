@@ -87,8 +87,33 @@ class Meet extends CI_Controller {
 		}
 
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
-
     }
+
+	// 取得該使用者關鍵字
+	public function getKeyWords () {
+
+		$events = $this->meet_model->get_keywords_events();
+		$accounts = $this->meet_model->get_keywords_accounts();
+		$fansinfo = $this->meet_model->get_keywords_fansinfo();
+		$posts = $this->meet_model->get_keywords_posts();
+		$videos = $this->meet_model->get_keywords_videos();
+
+		if ($events) {
+
+			$response['events'] = $events;
+			$response['accounts'] = $accounts;
+			$response['fansinfo'] = $fansinfo;
+			$response['posts'] = $posts;
+			$response['videos'] = $videos;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
 
 	// 儲存使用者喜歡的粉專
 	public function setLikes () {
@@ -161,6 +186,28 @@ class Meet extends CI_Controller {
 
 	}
 
+	// 儲存我管理的社團內的貼文
+	public function setGroupsFeed () {
+
+		$result = $this->meet_model->set_groups_feed();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+
+	}
+
+	// 儲存我打卡/備標記過的地方
+	public function setPlace () {
+
+		$result = $this->meet_model->set_place();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+
+	}
+
 
 	// 儲存粉專的相關資訊
 	public function setFanspageInfo () {
@@ -172,6 +219,7 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 
 	}
+
 
 	// Graph api 擷取頁面
     public function start ()
@@ -195,6 +243,17 @@ class Meet extends CI_Controller {
         $this->load->view('account/menu');
         $this->load->view('meet/fanspage', $data);
         $this->load->view('templates/footer');
+	}
+
+	public function chat ($id) {
+
+		$header['page_title'] = "";
+		$data['id'] = $id;
+		$this->load->view('templates/header', $header);
+        $this->load->view('templates/navbar');
+        $this->load->view('meet/chat', $data);
+        $this->load->view('templates/footer');
+
 	}
 
 }

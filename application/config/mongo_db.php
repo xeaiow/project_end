@@ -28,7 +28,7 @@
 $config['mongo_db']['active'] = 'default';
 
 $config['mongo_db']['default']['no_auth'] = FALSE;
-$config['mongo_db']['default']['hostname'] = '127.0.0.1';
+$config['mongo_db']['default']['hostname'] = '192.168.1.108';
 $config['mongo_db']['default']['port'] = '27017';
 $config['mongo_db']['default']['username'] = 'xeee';
 $config['mongo_db']['default']['password'] = '123456';
@@ -41,7 +41,7 @@ $config['mongo_db']['default']['read_preference'] = NULL;
 $config['mongo_db']['default']['read_preference_tags'] = NULL;
 
 $config['mongo_db']['test']['no_auth'] = FALSE;
-$config['mongo_db']['test']['hostname'] = '127.0.0.1';
+$config['mongo_db']['test']['hostname'] = '192.168.1.108';
 $config['mongo_db']['test']['port'] = '27017';
 $config['mongo_db']['test']['username'] = 'xeee';
 $config['mongo_db']['test']['password'] = '123456';

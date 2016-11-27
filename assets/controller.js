@@ -666,6 +666,24 @@ selene.controller('ArticleListCtrl', function($scope, $http, $location, $filter,
 		});
 	};
 
+	// 載入關鍵字
+	// $scope.loadKeyWords = function() {
+	//
+	// 	$http({
+	// 		url: '//localhost/meet/meet/keywords/query',
+	// 		method: "POST",
+	// 		data: {
+	// 			id: $scope.userId,
+	// 		}
+	// 	})
+	// 	.success( function(response) {
+	// 		if ( response.status == true ) {
+	// 			$scope.keywords = response.result;
+	// 			console.log(response.result);
+	// 		}
+	// 	});
+	// };
+
 	$scope.goto = function (u) {
 		window.location.href = '//localhost/selene_ci/a/' + u;
 	}
