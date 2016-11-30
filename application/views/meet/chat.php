@@ -80,7 +80,5 @@
 </div>
 
 <script>
-
-    var arr = [1, 2, 3];
     loadkeywords("<?=$id?>");
 </script>

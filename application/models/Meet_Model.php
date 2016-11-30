@@ -75,6 +75,7 @@ class Meet_model extends CI_Model {
             'timezone'      =>  $timezone,
             'cover'         =>  $cover,
             'description'   =>  $description,
+            'fetchTime'     =>  date("Y-m-d"),
             'username'      =>  $user
         );
 
@@ -97,6 +98,7 @@ class Meet_model extends CI_Model {
             'about'     => $about,
             'category'  => $category,
             'cover'     => $cover,
+            'fetchTime' => date("Y-m-d"),
             'username'  => $user,
         );
 
@@ -113,6 +115,7 @@ class Meet_model extends CI_Model {
         $data = array(
             'id'        => $id,
             'name'      => $name,
+            'fetchTime' => date("Y-m-d"),
             'username'  => $user,
         );
 
@@ -129,6 +132,7 @@ class Meet_model extends CI_Model {
         $data = array(
             'id'        => $id,
             'message'   => $message,
+            'fetchTime' => date("Y-m-d"),
             'username'  => $user,
         );
 
@@ -146,15 +150,47 @@ class Meet_model extends CI_Model {
         $user       = $this->session->userdata('rndcode');
 
         $data = array(
-            'post_id'  => $post_id,
-            'locat_id' => $locat_id,
-            'name'     => $name,
-            'lat'      => $lat,
-            'lng'      => $lng,
-            'username' => $user,
+            'post_id'   => $post_id,
+            'locat_id'  => $locat_id,
+            'name'      => $name,
+            'lat'       => $lat,
+            'lng'       => $lng,
+            'fetchTime' => date("Y-m-d"),
+            'username'  => $user,
         );
 
         return $this->mongo_db->insert('place', $data);
+    }
+
+    // 儲存關鍵字最終結果 (d3文字雲用)
+    public function set_key_result () {
+
+        $keywords = $this->input->post('keywords');
+        $counts   = $this->input->post('counts');
+        $user     = $this->session->userdata('rndcode');
+
+        $data = array(
+            'text'   => $keywords,
+            'size'     => $counts,
+            // 'createdate' => date("Y-m-d"),
+            // 'username'   => $user,
+        );
+
+        return $this->mongo_db->insert('keywords_result', $data);
+    }
+
+    // 聊天 - 找出該使用者關鍵字
+    public function get_KeywordsAndCounts ($id) {
+
+        return $this->mongo_db->get('keywords_result');
+    }
+
+    public function is_today () {
+
+        $this->mongo_db->where('username', $this->session->userdata('rndcode'));
+        $this->mongo_db->where('fetchDay', date("Y-m-d"));
+        return $this->mongo_db->get('likes');
+
     }
 
     // 儲存使用者喜愛的影片
@@ -171,6 +207,7 @@ class Meet_model extends CI_Model {
             'permalink_url' =>  $permalink_url,
             'description'   =>  $description,
             'place'         =>  $place,
+            'fetchTime'     =>  date("Y-m-d"),
             'username'      =>  $user
         );
 
@@ -191,6 +228,7 @@ class Meet_model extends CI_Model {
             'story'         => $story,
             'message'       => $message,
             'createdtime'   => $createdtime,
+            'fetchTime'     => date("Y-m-d"),
             'username'      => $user
         );
 
@@ -205,9 +243,10 @@ class Meet_model extends CI_Model {
         $user     = $this->session->userdata('rndcode');
 
         $data = array(
-            'video_id' => $video_id,
-            'comments' => $comments,
-            'username' =>  $user
+            'video_id'  => $video_id,
+            'comments'  => $comments,
+            'fetchTime' => date("Y-m-d"),
+            'username'  => $user
         );
 
         return $this->mongo_db->insert('videos_comments', $data);
@@ -234,6 +273,7 @@ class Meet_model extends CI_Model {
             'website'    =>  $website,
             'location'   =>  $location,
             'cover'      =>  $cover,
+            'fetchTime'  =>  date("Y-m-d"),
             'username'   =>  $user,
         );
         return $this->mongo_db->insert('fansInfo', $data);

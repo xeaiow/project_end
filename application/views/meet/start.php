@@ -360,6 +360,8 @@ $("#profile-edit-password-setup").click(function(){
 
 <script>
 
+    is_Today();
+
     FB.init({
         appId: "1708325876106482",
         xfbml      : true,
@@ -386,11 +388,30 @@ $("#profile-edit-password-setup").click(function(){
         }
     });
 
+    // 今天日否以分析過
+    function is_Today() {
+
+        $.ajax({
+            type: 'post',
+            url: '//localhost/meet/meet/today/query',
+            dataType: 'json',
+            error: function (xhr) {
+                errorMsg();
+            },
+            success: function (response) {
+                var response = $.parseJSON(JSON.stringify(response));
+                if (response.status == true) {
+                    $("#lab").prop("disabled", true); // 如果有抓到值表示我還無需分析
+                }
+            }
+        });
+    }
+
     // 分析
     $("#lab").click(function() {
         FB.login(function(response) {
             if (response.authResponse) {
-                place();
+                lab();
             }
         });
     });
@@ -425,6 +446,9 @@ $("#profile-edit-password-setup").click(function(){
         accounts();
         groups();
         posts();
+        place();
+
+        // loadkeywords("<?=$profile['rndcode']?>");
     }
 
 

@@ -396,6 +396,10 @@ function load_vote_result_item (id) {
 		}
 	});
 }
+var otherside_keywords = ""; // 儲存對方關鍵字用的
+var Item = new Array();
+var keywordsItem = 0;
+var counts = {};
 
 function loadkeywords (id) {
 
@@ -417,39 +421,81 @@ function loadkeywords (id) {
 				// events
 				for (var i = 0; i < response.events.length; i++) {
 					for (var j = 0; j < response.events[i].name.length; j++) {
-						$("#keywords").append('<a class="ui basic label">' + response.events[i].name[j].word + '</a>');
-						console.log(response.events[i].name[j].word);
+
+						Item[keywordsItem] = response.events[i].name[j].word;
+						keywordsItem++;
 					}
 				}
 
 				// accounts
 				for (var i = 0; i < response.accounts.length; i++) {
 					for (var j = 0; j < response.accounts[i].name.length; j++) {
-						$("#keywords").append('<a class="ui basic label">' + response.accounts[i].name[j].word + '</a>');
+
+						Item[keywordsItem] = response.accounts[i].name[j].word;
+						keywordsItem++;
 					}
 				}
 
 				// fansInfo
 				for (var i = 0; i < response.fansinfo.length; i++) {
 					for (var j = 0; j < response.fansinfo[i].name.length; j++) {
-						$("#keywords").append('<a class="ui basic label">' + response.fansinfo[i].name[j].word + '</a>');
+
+						Item[keywordsItem] = response.fansinfo[i].name[j].word;
+						keywordsItem++;
 					}
 				}
 
 				// posts
 				for (var i = 0; i < response.posts.length; i++) {
 					for (var j = 0; j < response.posts[i].name.length; j++) {
-						$("#keywords").append('<a class="ui basic label">' + response.posts[i].name[j].word + '</a>');
+
+						Item[keywordsItem] = response.posts[i].name[j].word;
+					    keywordsItem++;
 					}
 				}
 
 				// videos
 				for (var i = 0; i < response.videos.length; i++) {
 					for (var j = 0; j < response.videos[i].name.length; j++) {
-						$("#keywords").append('<a class="ui basic label">' + response.videos[i].name[j].word + '</a>');
+						Item[keywordsItem] = response.videos[i].name[j].word;
+						keywordsItem++;
 					}
 				}
+
+				// 吐出所有關鍵字
+				for (var k = 0; k < Item.length; k++) {
+					$("#keywords").append('<a class="ui basic label">' + Item[k] + '</a>');
+				}
+
+				// 抓每個關鍵字出現次數
+				Item.forEach(function(x) { counts[x] = (counts[x] || 0) + 1; });
+
+				// 存給d3用的文字及出現次數
+				for(var i = 0; i < Object.keys(counts).length; i++ ) {
+					$.ajax({
+						type: 'post',
+						url: '//localhost/meet/meet/keywordsAndCounts/result',
+						dataType: 'json',
+						data: {
+							keywords : Object.keys(counts)[i],
+							counts : Object.values(counts)[i],
+						},
+						error: function (xhr) {
+							errorMsg();
+						},
+						success: function (response) {
+							var response = $.parseJSON(JSON.stringify(response));
+
+							if (response.status == true) {
+
+							}
+						},
+					});
+				}
 			}
+
+			// Object.values(obj) 呼叫該object值
+			// Object.key(obj) 呼叫該object key
 		}
 	});
 }

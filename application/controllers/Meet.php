@@ -208,6 +208,44 @@ class Meet extends CI_Controller {
 
 	}
 
+	// 判斷我是否今天以分析過
+	public function isToday () {
+
+		$result = $this->meet_model->is_today();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+
+	}
+
+
+	// 儲存關鍵字最終結果 (d3文字雲用)
+	public function setKeyResult () {
+
+		$result = $this->meet_model->set_key_result();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
+	// 聊天 - 找出該使用者關鍵字
+	public function setKeywordAndCount ($id) {
+
+		$result = $this->meet_model->get_KeywordsAndCounts($id);
+
+		echo json_encode($result, JSON_UNESCAPED_UNICODE);
+	}
+
 
 	// 儲存粉專的相關資訊
 	public function setFanspageInfo () {
@@ -217,7 +255,6 @@ class Meet extends CI_Controller {
 		( $result == true ? $response['status'] = true : $response['status'] = false );
 
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
-
 	}
 
 
