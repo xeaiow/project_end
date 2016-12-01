@@ -461,14 +461,13 @@ $("#profile-edit-password-setup").click(function(){
                     type: 'post',
                     url: '//localhost/meet/meet/fans/save',
                     dataType: 'json',
-                    data: {
-                        id          : response.id,
+                    data: { // TODO: 抓經緯度
                         name        : response.name,
-                        about       : ( response.about == null ? '' : response.about ),
+                        about       : ( response.about == null ? '' : cancelLn(response.about) ),
                         fan_count   : response.fan_count,
-                        website     : ( response.website == null ? '' : response.website ),
-                        location    : ( response.location == null ? '' : response.location ),
-                        cover       : ( response.cover == null ? '' : response.cover ),
+                        website     : ( response.website == undefined ? '' : response.website ),
+                        location    : ( response.location == undefined ? '' : response.location.city + '/' + response.location.country),
+                        cover       : ( response.cover == undefined ? '' : response.cover.source ),
                     },
                     error: function (xhr) {
                         errorMsg();
@@ -494,9 +493,9 @@ $("#profile-edit-password-setup").click(function(){
                     data: {
                         name        : response.data[i].name,
                         id          : response.data[i].id,
-                        timezone    : ( response.data[i].timezone == null ? '' : response.data[i].timezone ),
-                        cover       : ( response.data[i].cover.source == null ? '' : response.data[i].cover.source ),
-                        description : ( response.data[i].description == null ? '' : cancelLn(response.data[i].description) ),
+                        timezone    : ( response.data[i].timezone == undefined ? '' : response.data[i].timezone ),
+                        cover       : ( response.data[i].cover == undefined ? '' : response.data[i].cover.source ),
+                        description : ( response.data[i].description == undefined ? '' : cancelLn(response.data[i].description) ),
                     },
                     error: function (xhr) {
                         errorMsg();
@@ -521,10 +520,9 @@ $("#profile-edit-password-setup").click(function(){
                         url: '//localhost/meet/meet/videos/save',
                         dataType: 'json',
                         data: {
-                            id              : response.data[i].id,
-                            description     : cancelLn(response.data[i].description),
-                            permalink_url   : response.data[i].permalink_url,
-                            place           : (response.data[i].place == undefined ? '' : response.data[i].place.name),
+                            id              : response.data[i].id, // 編號
+                            description     : cancelLn(response.data[i].description), // 影片貼文描述
+                            permalink_url   : response.data[i].permalink_url, // 影片網址
                         },
                         error: function (xhr) {
                             errorMsg();
@@ -555,7 +553,7 @@ $("#profile-edit-password-setup").click(function(){
                 url: '//localhost/meet/meet/videos_comments/save',
                 dataType: 'json',
                 data: {
-                    video_id : id,
+                    post_id : id,
                     comments : comments.slice(0, -1),
                 },
                 error: function (xhr) {
@@ -663,7 +661,8 @@ $("#profile-edit-password-setup").click(function(){
                     url: '//localhost/meet/meet/groups_feed/save',
                     dataType: 'json',
                     data: {
-                        id       : response.data[i].id, // 編號
+                        group_id : id, // 社團編號
+                        post_id  : response.data[i].id, // 貼文編號
                         message  : cancelSp(response.data[i].message), // 貼文內容
                     },
                     error: function (xhr) {
@@ -692,8 +691,11 @@ $("#profile-edit-password-setup").click(function(){
                             post_id  : response.data[i].id, // 貼文編號
                             locat_id : response.data[i].place.id, // 地標編號
                             name     : response.data[i].place.name, // 地標名稱
+                            city     : response.data[i].place.location.city, // 城市
+                            country  : response.data[i].place.location.country, // 縣
                             lat      : response.data[i].place.location.latitude, // 緯
                             lng      : response.data[i].place.location.longitude, // 經
+                            street   : ( response.data[i].place.location.street == null ? '' : response.data[i].place.location.street ), // 地址
                         },
                         error: function (xhr) {
                             errorMsg();
@@ -709,20 +711,16 @@ $("#profile-edit-password-setup").click(function(){
     }
 
     function failed () {
-        Messenger().post({
-            message: "失敗",
-            type: "error",
-            showCloseButton: true,
-            hideAfter: 1
-        });
+        console.log('failed');
     }
     function success () {
-        Messenger().post({
-            message: "成功",
-            type: "info",
-            showCloseButton: true,
-            hideAfter: 1
-        });
+        // Messenger().post({
+        //     message: "成功",
+        //     type: "info",
+        //     showCloseButton: true,
+        //     hideAfter: 1
+        // });
+        console.log('success');
     }
 
 </script>

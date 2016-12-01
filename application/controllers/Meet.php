@@ -31,89 +31,71 @@ class Meet extends CI_Controller {
 	}
 
 	// 取得我點過的粉專
-	public function getLikes() {
+	// public function getLikes() {
+	//
+    //     $result = $this->meet_model->get_likes();
+	//
+	//
+	// 	if ($result) {
+	//
+	// 		$response['likes']  = $result['likes'];
+	// 		$response['events'] = $result['events'];
+	// 		$response['status'] = true;
+	// 	}
+	// 	else {
+	//
+	// 		$response['status'] = false;
+	// 	}
+	//
+	// 	echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    // }
 
-        $result = $this->meet_model->get_likes();
-
-
-		if ($result) {
-
-			$response['likes']  = $result['likes'];
-			$response['events'] = $result['events'];
-			$response['status'] = true;
-		}
-		else {
-
-			$response['status'] = false;
-		}
-
-		echo json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-	// 測試
-	public function getMatch() {
-
-        $result = $this->meet_model->get_match();
-
-		if ($result) {
-
-			$response['result'] = $result;
-			$response['status'] = true;
-
-		}
-		else {
-			$response['status'] = false;
-		}
-
-		echo json_encode($response, JSON_UNESCAPED_UNICODE);
-
-    }
 
 	// 取得該粉專有誰喜歡
-	public function getFansPageInfo() {
-
-        $result = $this->meet_model->get_fanspage_info();
-		$allInfo = $this->meet_model->get_fanspage_info_all();
-
-		if ($result) {
-
-			$response['allInfo'] = $allInfo;
-			$response['result'] = $result;
-			$response['status'] = true;
-
-		}
-		else {
-			$response['status'] = false;
-		}
-
-		echo json_encode($response, JSON_UNESCAPED_UNICODE);
-    }
-
-	// 取得該使用者關鍵字
-	public function getKeyWords () {
-
-		$events = $this->meet_model->get_keywords_events();
-		$accounts = $this->meet_model->get_keywords_accounts();
-		$fansinfo = $this->meet_model->get_keywords_fansinfo();
-		$posts = $this->meet_model->get_keywords_posts();
-		$videos = $this->meet_model->get_keywords_videos();
-
-		if ($events) {
-
-			$response['events'] = $events;
-			$response['accounts'] = $accounts;
-			$response['fansinfo'] = $fansinfo;
-			$response['posts'] = $posts;
-			$response['videos'] = $videos;
-			$response['status'] = true;
-
-		}
-		else {
-			$response['status'] = false;
-		}
-
-		echo json_encode($response, JSON_UNESCAPED_UNICODE);
-	}
+	// public function getFansPageInfo() {
+	//
+    //     $result = $this->meet_model->get_fanspage_info();
+	// 	$allInfo = $this->meet_model->get_fanspage_info_all();
+	//
+	// 	if ($result) {
+	//
+	// 		$response['allInfo'] = $allInfo;
+	// 		$response['result'] = $result;
+	// 		$response['status'] = true;
+	//
+	// 	}
+	// 	else {
+	// 		$response['status'] = false;
+	// 	}
+	//
+	// 	echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    // }
+	//
+	// // 取得該使用者關鍵字
+	// public function getKeyWords () {
+	//
+	// 	$events = $this->meet_model->get_keywords_events();
+	// 	$accounts = $this->meet_model->get_keywords_accounts();
+	// 	$fansinfo = $this->meet_model->get_keywords_fansinfo();
+	// 	$posts = $this->meet_model->get_keywords_posts();
+	// 	$videos = $this->meet_model->get_keywords_videos();
+	//
+	// 	if ($events) {
+	//
+	// 		$response['events'] = $events;
+	// 		$response['accounts'] = $accounts;
+	// 		$response['fansinfo'] = $fansinfo;
+	// 		$response['posts'] = $posts;
+	// 		$response['videos'] = $videos;
+	// 		$response['status'] = true;
+	//
+	// 	}
+	// 	else {
+	// 		$response['status'] = false;
+	// 	}
+	//
+	// 	echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	// }
 
 	// 儲存使用者喜歡的粉專
 	public function setLikes () {
@@ -209,23 +191,23 @@ class Meet extends CI_Controller {
 	}
 
 	// 判斷我是否今天以分析過
-	public function isToday () {
-
-		$result = $this->meet_model->is_today();
-
-		if ($result) {
-
-			$response['result'] = $result;
-			$response['status'] = true;
-
-		}
-		else {
-			$response['status'] = false;
-		}
-
-		echo json_encode($response, JSON_UNESCAPED_UNICODE);
-
-	}
+	// public function isToday () {
+	//
+	// 	$result = $this->meet_model->is_today();
+	//
+	// 	if ($result) {
+	//
+	// 		$response['result'] = $result;
+	// 		$response['status'] = true;
+	//
+	// 	}
+	// 	else {
+	// 		$response['status'] = false;
+	// 	}
+	//
+	// 	echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	//
+	// }
 
 
 	// 儲存關鍵字最終結果 (d3文字雲用)
