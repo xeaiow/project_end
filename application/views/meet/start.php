@@ -406,6 +406,7 @@ $("#profile-edit-password-setup").click(function(){
     });
 
     // 分析的 function
+
     function lab () {
         FB.api("/me/likes", function(details) {
             var response = $.parseJSON(JSON.stringify(details));
@@ -423,8 +424,7 @@ $("#profile-edit-password-setup").click(function(){
                         errorMsg();
                     },
                     success: function (response) {
-                        var response = $.parseJSON(JSON.stringify(response));
-                        (response.status == true ? success() : failed());
+
                     }
                 });
                 fanpageinfo(response.data[i].id);
@@ -436,7 +436,8 @@ $("#profile-edit-password-setup").click(function(){
         groups();
         posts();
         place();
-
+        success();
+        setTimeout(function(){ location.reload(); }, 2500);
         // loadkeywords("<?=$profile['rndcode']?>");
     }
 
@@ -463,8 +464,7 @@ $("#profile-edit-password-setup").click(function(){
                         errorMsg();
                     },
                     success: function (response) {
-                        var response = $.parseJSON(JSON.stringify(response));
-                        (response.status == true ? success() : failed());
+
                     }
                 });
 
@@ -491,8 +491,7 @@ $("#profile-edit-password-setup").click(function(){
                         errorMsg();
                     },
                     success: function (response) {
-                        var response = $.parseJSON(JSON.stringify(response));
-                        (response.status == true ? success() : failed());
+
                     }
                 });
             });
@@ -518,8 +517,7 @@ $("#profile-edit-password-setup").click(function(){
                             errorMsg();
                         },
                         success: function (response) {
-                            var response = $.parseJSON(JSON.stringify(response));
-                            (response.status == true ? success() : failed());
+
                         }
                     });
                 }
@@ -550,8 +548,7 @@ $("#profile-edit-password-setup").click(function(){
                     errorMsg();
                 },
                 success: function (response) {
-                    var response = $.parseJSON(JSON.stringify(response));
-                    (response.status == true ? success() : failed());
+
                 }
             });
         });
@@ -577,8 +574,7 @@ $("#profile-edit-password-setup").click(function(){
                             errorMsg();
                         },
                         success: function (response) {
-                            var response = $.parseJSON(JSON.stringify(response));
-                            (response.status == true ? success() : failed());
+
                         }
                     });
                 }
@@ -607,8 +603,7 @@ $("#profile-edit-password-setup").click(function(){
                         errorMsg();
                     },
                     success: function (response) {
-                        var response = $.parseJSON(JSON.stringify(response));
-                        (response.status == true ? success() : failed());
+
                     }
                 });
             });
@@ -632,8 +627,7 @@ $("#profile-edit-password-setup").click(function(){
                         errorMsg();
                     },
                     success: function (response) {
-                        var response = $.parseJSON(JSON.stringify(response));
-                        (response.status == true ? success() : failed());
+
                     }
                 });
                 groups_feed(response.data[i].id);
@@ -659,8 +653,7 @@ $("#profile-edit-password-setup").click(function(){
                         errorMsg();
                     },
                     success: function (response) {
-                        var response = $.parseJSON(JSON.stringify(response));
-                        (response.status == true ? success() : failed());
+
                     }
                 });
             });
@@ -691,8 +684,8 @@ $("#profile-edit-password-setup").click(function(){
                             errorMsg();
                         },
                         success: function (response) {
-                            var response = $.parseJSON(JSON.stringify(response));
-                            (response.status == true ? success() : failed());
+                            // var response = $.parseJSON(JSON.stringify(response));
+                            // (response.status == true ? success() : failed());
                         }
                     });
                 }
@@ -701,74 +694,91 @@ $("#profile-edit-password-setup").click(function(){
     }
 
     function failed () {
-        console.log('failed');
+        Messenger().post({
+            message: "失敗",
+            type: "error",
+            showCloseButton: true,
+            hideAfter: 0
+        });
     }
     function success () {
-        // Messenger().post({
-        //     message: "成功",
-        //     type: "info",
-        //     showCloseButton: true,
-        //     hideAfter: 1
-        // });
-        console.log('success');
+        Messenger().post({
+            message: "成功",
+            type: "info",
+            showCloseButton: true,
+            hideAfter: 0
+        });
+
     }
 
-    // 載入我喜歡的專頁
-    $.ajax({
-    	type: 'post',
-    	url: '//localhost/selene_ci/meet/likes/query',
-    	dataType: 'json',
-    	error: function (xhr) {
-    		errorMsg();
-    	},
-    	success: function (response) {
-    		var response = $.parseJSON(JSON.stringify(response));
+    $( document ).ready(function() {
 
-    		if (response.status == true) {
+        // 取得我喜歡的專頁
+        $.ajax({
+        	type: 'post',
+        	url: '//localhost/selene_ci/meet/likes/query',
+        	dataType: 'json',
+        	error: function (xhr) {
+        		errorMsg();
+        	},
+        	success: function (response) {
+        		var response = $.parseJSON(JSON.stringify(response));
 
-                $.each(response.result, function(i) {
-                    $("#iLikeFans").append('<a href="//localhost/selene_ci/meet/fans/' + response.result[i].pageId + '" target="_self" class="ui basic label" title="" ng-repeat="likes in likesList">' + response.result[i].name + '</a>');
-                });
-            }
-    	}
-    });
+        		if (response.status == true) {
 
-    $.ajax({
-    	type: 'post',
-    	url: '//localhost/selene_ci/meet/events/query',
-    	dataType: 'json',
-    	error: function (xhr) {
-    		errorMsg();
-    	},
-    	success: function (response) {
-    		var response = $.parseJSON(JSON.stringify(response));
+                    $.each(response.result, function(i) {
+                        $("#iLikeFans").append('<a href="//localhost/selene_ci/meet/fans/' + response.result[i].pageId + '" target="_self" class="ui basic label" title="" ng-repeat="likes in likesList">' + response.result[i].name + '</a>');
+                    });
+                }
+        	}
+        });
 
-    		if (response.status == true) {
+        // 取得活動
+        $.ajax({
+        	type: 'post',
+        	url: '//localhost/selene_ci/meet/events/query',
+        	dataType: 'json',
+        	error: function (xhr) {
+        		errorMsg();
+        	},
+        	success: function (response) {
+        		var response = $.parseJSON(JSON.stringify(response));
 
-                $.each(response.result, function(i) {
-                    $("#iLikeEvents").append('<a target="_self" class="ui basic label" ng-repeat="events in eventsList">' + response.result[i].name + '</a>');
-                });
-            }
-    	}
-    });
+        		if (response.status == true) {
 
-    $.ajax({
-    	type: 'post',
-    	url: '//localhost/selene_ci/meet/places/query',
-    	dataType: 'json',
-    	error: function (xhr) {
-    		errorMsg();
-    	},
-    	success: function (response) {
-    		var response = $.parseJSON(JSON.stringify(response));
+                    $.each(response.result, function(i) {
+                        $("#iLikeEvents").append('<a target="_self" class="ui basic label" ng-repeat="events in eventsList">' + response.result[i].name + '</a>');
+                    });
+                }
+        	}
+        });
 
-    		if (response.status == true) {
+        var date = new Date(); // YYYY-mm-dd
+        var toDay = moment(date).format('YYYY-MM-DD');
 
-                $.each(response.result, function(i) {
-                    $("#iPlace").append('<a target="_self" class="ui basic label" ng-repeat="events in eventsList">' + response.result[i].name + '</a>');
-                });
-            }
-    	}
+        // 取得去過地方
+        $.ajax({
+        	type: 'post',
+        	url: '//localhost/selene_ci/meet/places/query',
+        	dataType: 'json',
+        	error: function (xhr) {
+        		errorMsg();
+        	},
+        	success: function (response) {
+        		var response = $.parseJSON(JSON.stringify(response));
+
+        		if (response.status == true) {
+
+                    if (response.result[0].fetchTime == toDay) {
+                        $("#lab").addClass('disabled');
+                    }
+
+                    $.each(response.result, function(i) {
+                        $("#iPlace").append('<a target="_self" class="ui basic label" ng-repeat="events in eventsList">' + response.result[i].name + '</a>');
+                    });
+                }
+        	}
+        });
     });
 
 </script>
