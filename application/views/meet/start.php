@@ -382,7 +382,7 @@ $("#profile-edit-password-setup").click(function(){
 
         $.ajax({
             type: 'post',
-            url: '//localhost/meet/meet/today/query',
+            url: '//localhost/selene_ci/meet/today/query',
             dataType: 'json',
             error: function (xhr) {
                 errorMsg();
@@ -412,7 +412,7 @@ $("#profile-edit-password-setup").click(function(){
             $.each(response.data, function(i){
                 $.ajax({
                     type: 'post',
-                    url: '//localhost/meet/meet/likes/save',
+                    url: '//localhost/selene_ci/meet/likes/save',
                     dataType: 'json',
                     data: {
                         name : response.data[i].name,
@@ -448,7 +448,7 @@ $("#profile-edit-password-setup").click(function(){
 
                 $.ajax({
                     type: 'post',
-                    url: '//localhost/meet/meet/fans/save',
+                    url: '//localhost/selene_ci/meet/fans/save',
                     dataType: 'json',
                     data: { // TODO: 抓經緯度
                         name        : response.name,
@@ -478,7 +478,7 @@ $("#profile-edit-password-setup").click(function(){
             $.each(response.data, function(i){
                 $.ajax({
                     type: 'post',
-                    url: '//localhost/meet/meet/events/save',
+                    url: '//localhost/selene_ci/meet/events/save',
                     dataType: 'json',
                     data: {
                         name        : response.data[i].name,
@@ -507,7 +507,7 @@ $("#profile-edit-password-setup").click(function(){
                 if (response.data[i].description != null) {
                     $.ajax({
                         type: 'post',
-                        url: '//localhost/meet/meet/videos/save',
+                        url: '//localhost/selene_ci/meet/videos/save',
                         dataType: 'json',
                         data: {
                             id              : response.data[i].id, // 編號
@@ -540,7 +540,7 @@ $("#profile-edit-password-setup").click(function(){
 
             $.ajax({
                 type: 'post',
-                url: '//localhost/meet/meet/videos_comments/save',
+                url: '//localhost/selene_ci/meet/videos_comments/save',
                 dataType: 'json',
                 data: {
                     post_id : id,
@@ -565,7 +565,7 @@ $("#profile-edit-password-setup").click(function(){
                 if (response.feed.data[i].message != null) {
                     $.ajax({
                         type: 'post',
-                        url: '//localhost/meet/meet/posts/save',
+                        url: '//localhost/selene_ci/meet/posts/save',
                         dataType: 'json',
                         data: {
                             id              : response.feed.data[i].id,
@@ -594,7 +594,7 @@ $("#profile-edit-password-setup").click(function(){
             $.each(response.data, function(i){
                 $.ajax({
                     type: 'post',
-                    url: '//localhost/meet/meet/accounts/save',
+                    url: '//localhost/selene_ci/meet/accounts/save',
                     dataType: 'json',
                     data: {
                         id       : response.data[i].id, // 編號
@@ -622,7 +622,7 @@ $("#profile-edit-password-setup").click(function(){
             $.each(response.data, function(i){
                 $.ajax({
                     type: 'post',
-                    url: '//localhost/meet/meet/groups/save',
+                    url: '//localhost/selene_ci/meet/groups/save',
                     dataType: 'json',
                     data: {
                         id       : response.data[i].id, // 編號
@@ -648,7 +648,7 @@ $("#profile-edit-password-setup").click(function(){
             $.each(response.data, function(i){
                 $.ajax({
                     type: 'post',
-                    url: '//localhost/meet/meet/groups_feed/save',
+                    url: '//localhost/selene_ci/meet/groups_feed/save',
                     dataType: 'json',
                     data: {
                         group_id : id, // 社團編號
@@ -675,7 +675,7 @@ $("#profile-edit-password-setup").click(function(){
                 if (response.data[i].place != undefined) {
                     $.ajax({
                         type: 'post',
-                        url: '//localhost/meet/meet/place/save',
+                        url: '//localhost/selene_ci/meet/place/save',
                         dataType: 'json',
                         data: {
                             post_id  : response.data[i].id, // 貼文編號
@@ -716,7 +716,7 @@ $("#profile-edit-password-setup").click(function(){
     // 載入我喜歡的專頁
     $.ajax({
     	type: 'post',
-    	url: '//localhost/meet/meet/likes/query',
+    	url: '//localhost/selene_ci/meet/likes/query',
     	dataType: 'json',
     	error: function (xhr) {
     		errorMsg();
@@ -727,7 +727,7 @@ $("#profile-edit-password-setup").click(function(){
     		if (response.status == true) {
 
                 $.each(response.result, function(i) {
-                    $("#iLikeFans").append('<a href="//localhost/meet/meet/fans/' + response.result[i].pageId + '" target="_self" class="ui basic label" title="" ng-repeat="likes in likesList">' + response.result[i].name + '</a>');
+                    $("#iLikeFans").append('<a href="//localhost/selene_ci/meet/fans/' + response.result[i].pageId + '" target="_self" class="ui basic label" title="" ng-repeat="likes in likesList">' + response.result[i].name + '</a>');
                 });
             }
     	}
@@ -735,7 +735,7 @@ $("#profile-edit-password-setup").click(function(){
 
     $.ajax({
     	type: 'post',
-    	url: '//localhost/meet/meet/events/query',
+    	url: '//localhost/selene_ci/meet/events/query',
     	dataType: 'json',
     	error: function (xhr) {
     		errorMsg();
@@ -754,7 +754,7 @@ $("#profile-edit-password-setup").click(function(){
 
     $.ajax({
     	type: 'post',
-    	url: '//localhost/meet/meet/places/query',
+    	url: '//localhost/selene_ci/meet/places/query',
     	dataType: 'json',
     	error: function (xhr) {
     		errorMsg();
