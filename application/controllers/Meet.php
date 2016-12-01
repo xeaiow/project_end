@@ -31,45 +31,82 @@ class Meet extends CI_Controller {
 	}
 
 	// 取得我點過的粉專
-	// public function getLikes() {
-	//
-    //     $result = $this->meet_model->get_likes();
-	//
-	//
-	// 	if ($result) {
-	//
-	// 		$response['likes']  = $result['likes'];
-	// 		$response['events'] = $result['events'];
-	// 		$response['status'] = true;
-	// 	}
-	// 	else {
-	//
-	// 		$response['status'] = false;
-	// 	}
-	//
-	// 	echo json_encode($response, JSON_UNESCAPED_UNICODE);
-    // }
+	public function getLikes() {
+
+        $result = $this->meet_model->get_likes();
+
+
+		if ($result) {
+
+			$response['result']  = $result;
+			$response['status'] = true;
+		}
+		else {
+
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+	// 取得我點過的粉專
+	public function getEvents() {
+
+        $result = $this->meet_model->get_events();
+
+
+		if ($result) {
+
+			$response['result']  = $result;
+			$response['status'] = true;
+		}
+		else {
+
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
+	// 取得我打卡過的地方
+	public function getPlace() {
+
+        $result = $this->meet_model->get_places();
+
+
+		if ($result) {
+
+			$response['result']  = $result;
+			$response['status'] = true;
+		}
+		else {
+
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
 
 
 	// 取得該粉專有誰喜歡
-	// public function getFansPageInfo() {
-	//
-    //     $result = $this->meet_model->get_fanspage_info();
-	// 	$allInfo = $this->meet_model->get_fanspage_info_all();
-	//
-	// 	if ($result) {
-	//
-	// 		$response['allInfo'] = $allInfo;
-	// 		$response['result'] = $result;
-	// 		$response['status'] = true;
-	//
-	// 	}
-	// 	else {
-	// 		$response['status'] = false;
-	// 	}
-	//
-	// 	echo json_encode($response, JSON_UNESCAPED_UNICODE);
-    // }
+	public function getFansPageInfo() {
+
+        $result = $this->meet_model->get_fanspage_info();
+		$allInfo = $this->meet_model->get_fanspage_info_all();
+
+		if ($result) {
+
+			$response['allInfo'] = $allInfo;
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
 	//
 	// // 取得該使用者關鍵字
 	// public function getKeyWords () {
@@ -249,6 +286,7 @@ class Meet extends CI_Controller {
         $this->load->view('account/menu');
 
 		$data['profile'] = $this->account_model->get_member_profile();
+		$data['aa'] = "安安";
         $this->load->view('meet/start', $data);
         $this->load->view('templates/footer');
     }

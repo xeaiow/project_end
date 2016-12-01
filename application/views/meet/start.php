@@ -1,4 +1,4 @@
-<div class="ui thirteen wide column" ng-init="loadLikes()">
+<div class="ui thirteen wide column">
 
     <div class="ui segment bg1">
         <div class="ui special cards centered">
@@ -68,38 +68,28 @@
 
                 <tr>
                     <td class="table-th">關鍵字</td>
-                    <td>籃球、程式設計、川普、房地產、高爾夫球</td>
+                    <td></td>
                 </tr>
 
                 <tr>
-                    <td class="table-th">我喜歡的</td>
+                    <td class="table-th">喜歡的專頁</td>
                     <td>
-                        <div class="ui form">
-                            <a href="//localhost/meet/meet/fans/{{likes.id}}" target="_self" class="ui basic label" title="{{likes.id}}" ng-repeat="likes in likesList">{{likes.name}}</a>
-                        </div>
+                        <div class="ui form" id="iLikeFans"></div>
                     </td>
                 </tr>
 
                 <tr>
                     <td class="table-th">喜歡的活動</td>
                     <td>
-                        <div class="ui form" id="profile-edit-signature">
-                            <div class="field">
-                                <a target="_self" class="ui basic label" ng-repeat="events in eventsList">{{events.name}}</a>
-                            </div>
-                        </div>
+                        <div class="ui form" id="iLikeEvents"></div>
                     </td>
                 </tr>
 
 
                 <tr>
-                    <td class="table-th">我的專業</td>
+                    <td class="table-th">去過的地方</td>
                     <td>
-                        <div class="ui form" id="profile-edit-signature">
-                            <div class="field">
-                                喜歡的書籍
-                            </div>
-                        </div>
+                        <div class="ui form" id="iPlace"</div>
                     </td>
                 </tr>
 
@@ -360,7 +350,6 @@ $("#profile-edit-password-setup").click(function(){
 
 <script>
 
-    is_Today();
 
     FB.init({
         appId: "1708325876106482",
@@ -463,6 +452,7 @@ $("#profile-edit-password-setup").click(function(){
                     dataType: 'json',
                     data: { // TODO: 抓經緯度
                         name        : response.name,
+                        page_id     : id,
                         about       : ( response.about == null ? '' : cancelLn(response.about) ),
                         fan_count   : response.fan_count,
                         website     : ( response.website == undefined ? '' : response.website ),
@@ -722,5 +712,63 @@ $("#profile-edit-password-setup").click(function(){
         // });
         console.log('success');
     }
+
+    // 載入我喜歡的專頁
+    $.ajax({
+    	type: 'post',
+    	url: '//localhost/meet/meet/likes/query',
+    	dataType: 'json',
+    	error: function (xhr) {
+    		errorMsg();
+    	},
+    	success: function (response) {
+    		var response = $.parseJSON(JSON.stringify(response));
+
+    		if (response.status == true) {
+
+                $.each(response.result, function(i) {
+                    $("#iLikeFans").append('<a href="//localhost/meet/meet/fans/' + response.result[i].pageId + '" target="_self" class="ui basic label" title="" ng-repeat="likes in likesList">' + response.result[i].name + '</a>');
+                });
+            }
+    	}
+    });
+
+    $.ajax({
+    	type: 'post',
+    	url: '//localhost/meet/meet/events/query',
+    	dataType: 'json',
+    	error: function (xhr) {
+    		errorMsg();
+    	},
+    	success: function (response) {
+    		var response = $.parseJSON(JSON.stringify(response));
+
+    		if (response.status == true) {
+
+                $.each(response.result, function(i) {
+                    $("#iLikeEvents").append('<a target="_self" class="ui basic label" ng-repeat="events in eventsList">' + response.result[i].name + '</a>');
+                });
+            }
+    	}
+    });
+
+    $.ajax({
+    	type: 'post',
+    	url: '//localhost/meet/meet/places/query',
+    	dataType: 'json',
+    	error: function (xhr) {
+    		errorMsg();
+    	},
+    	success: function (response) {
+    		var response = $.parseJSON(JSON.stringify(response));
+
+    		if (response.status == true) {
+
+                $.each(response.result, function(i) {
+                    $("#iPlace").append('<a target="_self" class="ui basic label" ng-repeat="events in eventsList">' + response.result[i].name + '</a>');
+                });
+            }
+    	}
+    });
 
 </script>

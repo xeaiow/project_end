@@ -8,35 +8,54 @@ class Meet_model extends CI_Model {
     }
 
     // 取得使用者喜歡的粉專
-    // public function get_likes () {
-    //
-    //     $user = $this->session->userdata('rndcode');
-    //
-    //     $my_likes  = $this->mongo_db->where('username', $user)->get('likes');
-    //     $my_events = $this->mongo_db->where('username', $user)->get('events');
-    //
-    //     return array(
-    //         'likes' => $my_likes,
-    //         'events' => $my_events,
-    //     );
-    // }
-    //
-    //
+    public function get_likes () {
+
+        $user = $this->session->userdata('rndcode');
+
+		$this->db->where('username', $user);
+		$query = $this->db->get('meet_likes');
+
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 取得使用者喜歡的活動
+    public function get_events () {
+
+        $user = $this->session->userdata('rndcode');
+
+		$this->db->where('username', $user);
+		$query = $this->db->get('meet_events');
+
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 取得我打卡過的地方
+    public function get_places () {
+
+        $user = $this->session->userdata('rndcode');
+
+		$this->db->where('username', $user);
+		$query = $this->db->get('meet_place');
+
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+
     // // 取得該粉專抓取時資訊
-    // public function get_fanspage_info () {
-    //
-    //     $id = $_POST['id']; // 粉專之id
-    //     $query = $this->mongo_db->where('id', $id);
-    //     return $query->get('likes');
-    // }
-    //
+    public function get_fanspage_info () {
+
+        $id = $_POST['id']; // 粉專之id
+        $query = $this->db->where('pageId', $id);
+        return $query->get('meet_likes');
+    }
+
     // // 取得該粉專所有資訊
-    // public function get_fanspage_info_all () {
-    //
-    //     $id = $_POST['id']; // 粉專之id
-    //     $query = $this->mongo_db->where('id', $id);
-    //     return $query->get('fansInfo');
-    // }
+    public function get_fanspage_info_all () {
+
+        $id = $_POST['id']; // 粉專之id
+        $query = $this->db->where('pageId', $id);
+        return $query->get('meet_fanspage');
+    }
 
     // 儲存使用者喜歡的粉專
     public function set_likes () {
@@ -262,6 +281,7 @@ class Meet_model extends CI_Model {
     public function set_fanpage_info () {
 
         $name       = $this->input->post('name');
+        $page_id    = $this->input->post('page_id');
         $fan_count  = $this->input->post('fan_count');
         $about      = $this->input->post('about');
         $website    = $this->input->post('website');
@@ -271,6 +291,7 @@ class Meet_model extends CI_Model {
 
         $data   = array(
             'name'       =>  $name,
+            'pageId'     =>  $page_id,
             'about'      =>  $about,
             'fan_count'  =>  $fan_count,
             'website'    =>  $website,

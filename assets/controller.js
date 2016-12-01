@@ -629,42 +629,25 @@ selene.controller('ArticleListCtrl', function($scope, $http, $location, $filter,
 })
 .controller('AccountCtrl', function($scope, $http, objectsToArray) {
 
-	// 載入我喜歡的專頁
-	$scope.loadLikes = function() {
-
-		$http({
-			url: '//localhost/meet/meet/likes/query',
-			method: "POST",
-		})
-		.success( function(response) {
-			if ( response.status == true ) {
-
-				$scope.likesList  = response.likes;
-				$scope.eventsList = response.events;
-			}
-
-		});
-	};
-
 	// 載入粉專個別相關資訊
-	$scope.loadFansInfo = function() {
-
-		$http({
-			url: '//localhost/meet/meet/fans/info/query',
-			method: "POST",
-			data: {
-				id: $scope.fansId,
-			}
-		})
-		.success( function(response) {
-			if ( response.status == true ) {
-
-				$scope.fansPageInfo = response.result;
-				$scope.fansPageInfoAll = response.allInfo;
-				console.log(response.allInfo);
-			}
-		});
-	};
+	// $scope.loadFansInfo = function() {
+	//
+	// 	$http({
+	// 		url: '//localhost/meet/meet/fans/info/query',
+	// 		method: "POST",
+	// 		data: {
+	// 			id: $scope.fansId,
+	// 		}
+	// 	})
+	// 	.success( function(response) {
+	// 		if ( response.status == true ) {
+	//
+	// 			$scope.fansPageInfo = response.result;
+	// 			$scope.fansPageInfoAll = response.allInfo;
+	// 			console.log(response.allInfo);
+	// 		}
+	// 	});
+	// };
 
 	// 載入關鍵字
 	// $scope.loadKeyWords = function() {

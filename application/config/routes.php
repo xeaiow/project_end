@@ -235,6 +235,8 @@ $route['pineapple/member/query'] = 'admin/get_member';
 
 // Meet me
 $route['meet/likes/query'] = 'meet/getLikes'; // 取得使用者喜歡的粉專
+$route['meet/events/query'] = 'meet/getEvents'; // 取得使用者喜歡的活動
+$route['meet/places/query'] = 'meet/getPlace'; // 取得使用者去過的地方
 $route['meet/match/query'] = 'meet/getMatch'; // 測試用
 $route['meet/likes/save']  = 'meet/setLikes'; // 儲存使用者喜歡的粉專
 $route['meet/fans/(:num)'] = 'meet/fanspage/$1';
