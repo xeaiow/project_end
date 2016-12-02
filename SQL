@@ -1,0 +1,5 @@
+// 擷取關鍵字出現次數
+SELECT keywords, count(keywords) FROM meet_keywords WHERE username = "16479835" GROUP BY `keywords`
+
+// 取得也有某關鍵字的使用者
+SELECT username FROM meet_keywords WHERE keywords = "Selene" AND username != "16479835"

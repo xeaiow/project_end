@@ -107,32 +107,78 @@ class Meet extends CI_Controller {
 
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
     }
-	//
+
 	// // 取得該使用者關鍵字
-	// public function getKeyWords () {
-	//
-	// 	$events = $this->meet_model->get_keywords_events();
-	// 	$accounts = $this->meet_model->get_keywords_accounts();
-	// 	$fansinfo = $this->meet_model->get_keywords_fansinfo();
-	// 	$posts = $this->meet_model->get_keywords_posts();
-	// 	$videos = $this->meet_model->get_keywords_videos();
-	//
-	// 	if ($events) {
-	//
-	// 		$response['events'] = $events;
-	// 		$response['accounts'] = $accounts;
-	// 		$response['fansinfo'] = $fansinfo;
-	// 		$response['posts'] = $posts;
-	// 		$response['videos'] = $videos;
-	// 		$response['status'] = true;
-	//
-	// 	}
-	// 	else {
-	// 		$response['status'] = false;
-	// 	}
-	//
-	// 	echo json_encode($response, JSON_UNESCAPED_UNICODE);
-	// }
+	public function getKeyWords () {
+
+		$result = $this->meet_model->get_keywords();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
+	// 聊天頁面 取得該使用者關鍵字
+	public function getUserKeyWords () {
+
+		$result = $this->meet_model->get_user_keywords();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
+	// 聊天頁面 取得該使用者d3
+	public function getUserMatchKeyWords () {
+
+		$result = $this->meet_model->get_user_keywords_d3();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
+	// 聊天頁面 取得跟我有相符的關鍵字之使用者
+	public function getUserMatchKeyWordsCount () {
+
+		$result = $this->meet_model->get_user_keywords_count();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
 
 	// 儲存使用者喜歡的粉專
 	public function setLikes () {
@@ -310,7 +356,15 @@ class Meet extends CI_Controller {
         $this->load->view('templates/navbar');
         $this->load->view('meet/chat', $data);
         $this->load->view('templates/footer');
+	}
 
+	public function distance () {
+
+		$header['page_title'] = "距離 - Meet覓";
+		$this->load->view('templates/header', $header);
+        $this->load->view('templates/navbar');
+        $this->load->view('meet/distance');
+        $this->load->view('templates/footer');
 	}
 
 }

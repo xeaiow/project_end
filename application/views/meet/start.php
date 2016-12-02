@@ -68,7 +68,9 @@
 
                 <tr>
                     <td class="table-th">關鍵字</td>
-                    <td></td>
+                    <td>
+                        <div class="ui form" id="iKeywords"></div>
+                    </td>
                 </tr>
 
                 <tr>
@@ -770,5 +772,26 @@ $("#profile-edit-password-setup").click(function(){
             }
     	}
     });
+
+    // 取得我的關鍵字
+    $.ajax({
+    	type: 'post',
+    	url: '//localhost/selene_ci/meet/keywords/query',
+    	dataType: 'json',
+    	error: function (xhr) {
+    		errorMsg();
+    	},
+    	success: function (response) {
+    		var response = $.parseJSON(JSON.stringify(response));
+
+    		if (response.status == true) {
+
+                $.each(response.result, function(i) {
+                    $("#iKeywords").append('<a target="_self" class="ui basic label" ng-repeat="events in eventsList">' + response.result[i].keywords + '</a>');
+                });
+            }
+    	}
+    });
+
 
 </script>

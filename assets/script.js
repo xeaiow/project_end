@@ -501,6 +501,7 @@ var counts = {};
 // }
 
 
+
 // 載入可投票競賽內的項目
 function loadvote_item (id) {
 

@@ -188,37 +188,6 @@ class Meet_model extends CI_Model {
         return $this->db->insert('meet_place', $data);
     }
 
-    // 儲存關鍵字最終結果 (d3文字雲用)
-    // public function set_key_result () {
-    //
-    //     $keywords = $this->input->post('keywords');
-    //     $counts   = $this->input->post('counts');
-    //     $user     = $this->session->userdata('rndcode');
-    //
-    //     $data = array(
-    //         'text'   => $keywords,
-    //         'size'     => $counts,
-    //         // 'createdate' => date("Y-m-d"),
-    //         // 'username'   => $user,
-    //     );
-    //
-    //     return $this->mongo_db->insert('keywords_result', $data);
-    // }
-    //
-    // // 聊天 - 找出該使用者關鍵字
-    // public function get_KeywordsAndCounts ($id) {
-    //
-    //     return $this->mongo_db->get('keywords_result');
-    // }
-    //
-    // public function is_today () {
-    //
-    //     $this->mongo_db->where('username', $this->session->userdata('rndcode'));
-    //     $this->mongo_db->where('fetchDay', date("Y-m-d"));
-    //     return $this->mongo_db->get('likes');
-    //
-    // }
-
     // 儲存使用者喜愛的影片
     public function set_video () {
 
@@ -304,39 +273,44 @@ class Meet_model extends CI_Model {
     }
 
     // 取得該使用者關鍵字
-    // public function get_keywords_events () {
-    //
-    //     $id = $_POST['id']; // userId
-    //     $query = $this->mongo_db->where('username', $id);
-    //     return $query->get('events_h');
-    // }
-    //
-    // public function get_keywords_accounts () {
-    //
-    //     $id = $_POST['id']; // userId
-    //     $query = $this->mongo_db->where('username', $id);
-    //     return $query->get('accounts_h');
-    // }
-    //
-    // public function get_keywords_fansinfo () {
-    //
-    //     $id = $_POST['id']; // userId
-    //     $query = $this->mongo_db->where('username', $id);
-    //     return $query->get('fansInfo_h');
-    // }
-    //
-    // public function get_keywords_posts () {
-    //
-    //     $id = $_POST['id']; // userId
-    //     $query = $this->mongo_db->where('username', $id);
-    //     return $query->get('posts_h');
-    // }
-    //
-    // public function get_keywords_videos () {
-    //
-    //     $id = $_POST['id']; // userId
-    //     $query = $this->mongo_db->where('username', $id);
-    //     return $query->get('videos_h');
-    // }
+    public function get_keywords () {
+
+        $user  = $this->session->userdata('rndcode');
+        $query = $this->db->where('username', $user)->get('meet_keywords');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 聊天頁面 取得該使用者關鍵字
+    public function get_user_keywords () {
+
+        $user  = $this->input->post('id');
+        $query = $this->db->where('username', $user)->get('meet_keywords');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 聊天頁面 取得該使用者d3
+    public function get_user_keywords_d3 () {
+
+        $user  = $this->input->post('id');
+        $query = $this->db->query('SELECT keywords, count(keywords) AS counts FROM meet_keywords WHERE username = "'. $user .'" GROUP BY keywords');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 聊天頁面 取得該使用者與我相符關鍵字
+    public function get_user_matchkeywords () {
+
+        $user  = $this->input->post('id');
+        $query = $this->db->query('SELECT keywords, count(keywords) AS counts FROM meet_keywords WHERE username = "'. $user .'" GROUP BY keywords');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 聊天頁面 取得該使用者與我相符關鍵字
+    public function get_user_keywords_count () {
+
+        $user  = $this->session->userdata('rndcode');
+        $keywords = $this->input->post('keywords');
+        $query = $this->db->query('SELECT username FROM meet_keywords WHERE keywords = "'.$keywords.'" AND username != "'.$user.'"');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
 
 }

@@ -1,12 +1,12 @@
-<div class="ui grid stackable container" ng-controller="AccountCtrl" ng-init="userId='<?=$id?>';loadKeyWords()">
+<div class="ui grid stackable container" ng-controller="AccountCtrl" ng-init="userId='<?=$id?>'">
     <div class="ui sixteen wide column">
         <div class="ui grid">
 
             <div class="four wide column">
-                <h3 class="ui header centered">對方</h3>
+                <h3 class="ui header centered">對方關注</h3>
                 <div class="ui segment">
                     <div class="ui divided items">
-                        <p id="keywords"></p>
+                        <p id="userKeywords"></p>
                     </div>
                 </div>
                 <div class="ui raised segment">
@@ -68,17 +68,90 @@
 
             <div class="four wide column">
                 <h3 class="ui header centered">關鍵字</h3>
-                <div class="ui segment">
-                    <a class="ui basic label">Basic</a>
-                    <a class="ui basic label">Basic</a>
-                    <a class="ui basic label">Basic</a>
-                </div>
-
+                <div class="ui segment" id="matchKeywords"></div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    loadkeywords("<?=$id?>");
+    loadUserInfo();
+    var userKeywords = new Array(); // 對方所有關鍵字
+
+    function loadUserInfo () {
+        $.ajax({
+        	type: 'post',
+        	url: '//localhost/selene_ci/meet/userKeywords/query',
+        	dataType: 'json',
+            data:{
+                id : "<?=$id?>",
+            },
+        	error: function (xhr) {
+        		errorMsg();
+        	},
+        	success: function (response) {
+        		var response = $.parseJSON(JSON.stringify(response));
+
+        		if (response.status == true) {
+
+                    $.each(response.result, function(i) {
+                        $("#userKeywords").append('<a target="_self" class="ui basic label" ng-repeat="events in eventsList">' + response.result[i].keywords + '</a>');
+                        userKeywords[i] = response.result[i].keywords;
+                    });
+                }
+        	}
+        });
+    }
+
+    // for (var i = 0; i < userKeywords.length; i++) {
+    //     $.ajax({
+    //         type: 'post',
+    //         url: '//localhost/selene_ci/meet/userMatchKeywordsCount/query',
+    //         dataType: 'json',
+    //         data: {
+    //             keywords : userKeywords[i],
+    //         },
+    //         error: function (xhr) {
+    //             errorMsg();
+    //         },
+    //         success: function (response) {
+    //             var response = $.parseJSON(JSON.stringify(response));
+    //
+    //             if (response.status == true) {
+    //
+    //                 $.each(response.result, function(i) {
+    //                     response.result[i].username;
+    //                 });
+    //             }
+    //         }
+    //     });
+    // }
+
+
+        for (var i = 0; i < userKeywords.length; i++) {
+            $.ajax({
+            	type: 'post',
+            	url: '//localhost/selene_ci/meet/userMatchKeywordsCount/query',
+            	dataType: 'json',
+                data: {
+                    keywords : userKeywords[i],
+                },
+            	error: function (xhr) {
+            		errorMsg();
+            	},
+            	success: function (response) {
+            		var response = $.parseJSON(JSON.stringify(response));
+
+            		if (response.status == true) {
+
+                        // $.each(response.result, function(i) {
+                        //     $("#matchKeywords").append('<a class="ui basic label">' + response.result[i].keywords + '</a>');
+                        // });
+                        console.log(response.result);
+                    }
+            	}
+            });
+        }
+
+
 </script>
