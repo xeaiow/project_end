@@ -247,6 +247,7 @@ $route['meet/userKeywords/query'] = 'meet/getUserKeyWords';
 $route['meet/userMatchKeywords/query'] = 'meet/getUserMatchKeyWords';
 $route['meet/userMatchKeywordsCount/query'] = 'meet/getUserMatchKeyWordsCount';
 $route['meet/keywordsAndCounts/result/(:num)'] = 'meet/setKeywordAndCount/$1';
+$route['meet/matchKeywordsThree/query'] = 'meet/getMatchKeywordsThree';
 $route['meet/fans/save'] = 'meet/setFanspageInfo';
 $route['meet/events/save'] = 'meet/setEvent';
 $route['meet/videos/save'] = 'meet/setVideo';

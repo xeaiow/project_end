@@ -178,6 +178,7 @@ class Meet extends CI_Controller {
 		}
 
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+		// $this->output->enable_profiler(TRUE);
 	}
 
 	// 儲存使用者喜歡的粉專
@@ -189,6 +190,25 @@ class Meet extends CI_Controller {
 
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
+
+	// 取得前三多關鍵字使用者
+	public function getMatchKeywordsThree () {
+
+		$result = $this->meet_model->get_match_keywords_three();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
 
 	// 儲存使用者參與的活動
 	public function setEvent () {

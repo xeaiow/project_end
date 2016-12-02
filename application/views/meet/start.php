@@ -440,7 +440,7 @@ $("#profile-edit-password-setup").click(function(){
         place();
         success();
         setTimeout(function(){ location.reload(); }, 2500);
-        // loadkeywords("<?=$profile['rndcode']?>");
+        
     }
 
 

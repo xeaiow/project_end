@@ -1,24 +1,18 @@
-<div class="ui grid stackable container">
-    <div class="ui sixteen wide column">
-        <div class="ui grid">
+<div class="ui thirteen wide column fluid">
 
-            <div class="sixteen wide column">
-                <h3 class="ui header centered">距離</h3>
-                <div class="ui segment">
-                    <div class="ui divided items" id="distance"></div>
-                </div>
-            </div>
+    <!-- 涅友列表 -->
+    <div ng-cloak class="ui basic segment stackable four column doubling grid" id="friends-list"></div>
 
-        </div>
-    </div>
 </div>
 
+</div> <!-- end of container -->
+
 <script>
-    loadUserInfo();
+
     var userKeywords = new Array(); // 對方所有關鍵字
+    var matchUser = new Array();
+    var counts;
 
-
-    function loadUserInfo () {
         $.ajax({
         	type: 'post',
         	url: '//localhost/selene_ci/meet/keywords/query',
@@ -32,30 +26,78 @@
         		if (response.status == true) {
 
                     for (var i = 0; i < response.result.length; i++) {
-                        $.ajax({
-                            type: 'post',
-                            url: '//localhost/selene_ci/meet/userMatchKeywordsCount/query',
-                            dataType: 'json',
-                            data: {
-                                keywords : response.result[i].keywords,
-                            },
-                            error: function (xhr) {
-                                errorMsg();
-                            },
-                            success: function (response) {
-                                var response_m = $.parseJSON(JSON.stringify(response));
-
-                                if (response_m.status == true) {
-
-                                    console.log((response_m.result[i].username != undefined ? response_m.result[i].username : ''));
-                                }
-                            }
-                        });
+                        userKeywords[i] = response.result[i].keywords;
                     }
                 }
+                findMatch();
         	}
         });
-    }
 
+        function findMatch () {
+            $.ajax({
+                type: 'post',
+                url: '//localhost/selene_ci/meet/userMatchKeywordsCount/query',
+                dataType: 'json',
+                data: {
+                    keywords : userKeywords,
+                },
+                error: function (xhr) {
+                    errorMsg();
+                },
+                success: function (response) {
+                    var response = $.parseJSON(JSON.stringify(response));
 
+                    if (response.status == true) {
+
+                        // 跑出跟我關鍵字重複的 username，存入 matchUser 待運算重複數
+                        $.each(response.result, function(i) {
+                            matchUser[i] = response.result[i].username;
+                        });
+
+                        // 計算使用者重複數
+                        matchUser.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+                        loadMatchUserThree();
+                    }
+                }
+            });
+        }
+
+        function loadMatchUserThree () {
+
+            for (var i = 0; i < Object.keys(counts).length; i++) {
+                $.ajax({
+                    type: 'post',
+                    url: '//localhost/selene_ci/meet/matchKeywordsThree/query',
+                    dataType: 'json',
+                    data: {
+                        matchUsername : Object.keys(counts)[i],
+                    },
+                    error: function (xhr) {
+                        errorMsg();
+                    },
+                    success: function (response) {
+                        var response = $.parseJSON(JSON.stringify(response));
+
+                        if (response.status == true) {
+
+                            $("#friends-list").append(
+                                '<div class="column">' +
+                                    '<div class="ui card fluid">' +
+                                        '<a class="ui" target="_self">' +
+                                            '<div class="image-square image radius-4" style="background-image: url()"></div>' +
+                                        '</a>' +
+                                        '<div class="content">' +
+                                            '<a class="header center aligned">' +
+                                                response.result[0].sc_name + ' ' + response.result[0].de_name + '系' +
+                                            '</a>' +
+                                            '<div class="meta aligned"></div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>'
+                            );
+                        }
+                    }
+                });
+            }
+        }
 </script>

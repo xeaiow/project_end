@@ -309,7 +309,15 @@ class Meet_model extends CI_Model {
 
         $user  = $this->session->userdata('rndcode');
         $keywords = $this->input->post('keywords');
-        $query = $this->db->query('SELECT username FROM meet_keywords WHERE keywords = "'.$keywords.'" AND username != "'.$user.'"');
+        $query = $this->db->query('SELECT username FROM meet_keywords WHERE keywords REGEXP ("' . implode("|",$keywords) . '") AND username != "'.$user.'"');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 取得前三多關鍵字使用者
+    public function get_match_keywords_three () {
+
+        $matchUsername = $this->input->post('matchUsername');
+        $query = $this->db->query('SELECT * FROM member, school, dept WHERE member.rndcode = "'.$matchUsername.'" AND member.school = school.sc_code AND member.department = dept.de_code');
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 
