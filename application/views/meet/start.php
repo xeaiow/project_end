@@ -407,6 +407,7 @@ $("#profile-edit-password-setup").click(function(){
         });
     });
 
+    // 分析前先清除今天以前的資料
     function dropOld () {
         $.ajax({
             type: 'post',
@@ -417,6 +418,7 @@ $("#profile-edit-password-setup").click(function(){
             },
             success: function (response) {
                 console.log('success');
+                lab();
             }
         });
     }

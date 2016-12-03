@@ -324,10 +324,16 @@ class Meet_model extends CI_Model {
     // 分析前先刪除舊資料
     public function set_drop_old () {
 
-        $user  = $this->session->userdata('rndcode');
+        $user     = $this->session->userdata('rndcode');
         $this->db->query('DELETE FROM meet_keywords WHERE username = "'.$user.'"');
         $this->db->query('DELETE ac, ev, fa, gr, grf, li, pl, po, vi, vic FROM meet_accounts AS ac, meet_events AS ev, meet_fanspage AS fa, meet_groups AS gr, meet_groups_feed AS grf, meet_likes AS li, meet_place AS pl, meet_posts AS po, meet_videos AS vi, meet_videos_comments AS vic WHERE ac.username = "'.$user.'" AND ac.username = ev.username AND ac.username = fa.username AND ac.username = gr.username AND ac.username = grf.username AND ac.username = li.username AND ac.username = pl.username AND ac.username = po.username AND ac.username = vi.username AND ac.username = vic.username');
-        return ( $this->db->affected_rows() > 0 ) ? true : false;
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }
