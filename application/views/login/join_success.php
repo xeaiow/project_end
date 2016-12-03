@@ -6,15 +6,14 @@
 
 			<div class="ui basic segment">
 				<h2 class="ui header center aligned">
-					恭喜你準備成為 Selene 的一份子！
+					恭喜你準備成為 Meet覓 的一份子！
 					<div class="sub header">
-						現在，請你進入學校信箱收取認證信
+						現在，請你進入信箱收取認證信
 					</div>
 				</h2>
 			</div>
 
 			<div class="ui segment">
-				<a href="<?php echo $school['sc_url']; ?>" target="_blank" class="fluid ui teal button">點我去收啟用信 (<?php echo $school['sc_name']; ?>)</a>
                 <div class="ui relaxed divided list">
                     <div class="item">
                         <i class="large comment middle aligned icon"></i>
@@ -26,22 +25,15 @@
                     <div class="item">
                         <i class="large comment middle aligned icon"></i>
                         <div class="content">
-                            <a class="header">找不到我的系所</a>
-                            <div class="description">請點選 feedback ，我們立即為您修正。</div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <i class="large comment middle aligned icon"></i>
-                        <div class="content">
                             <a class="header">我的帳號是什麼？</a>
-                            <div class="description">帳號為申請時所填寫的校園信箱。</div>
+                            <div class="description">帳號為申請時所填寫的信箱。</div>
                         </div>
                     </div>
                     <div class="item">
                         <i class="large comment middle aligned icon"></i>
                         <div class="content">
                             <a class="header">我忘記密碼了</a>
-                            <div class="description">請點選 "忘記密碼" 並填寫申請時的校園信箱，再去校園信箱收確認信即可。</div>
+                            <div class="description">請點選 "忘記密碼" 並填寫申請時的信箱，再去該信箱收確認信即可。</div>
                         </div>
                     </div>
                 </div>

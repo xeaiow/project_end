@@ -1635,22 +1635,23 @@ $(document).ready(function() {
 				}
 				else{
 
-					if (response.failed == true) {
-						window.location.href = '//localhost/selene_ci/login'
-					}
-					else{
-						$.each(response.errors, function(field, i) {
-
-							$('#login-' + field).parents(".field").addClass('error');
-
-							Messenger().post({
-								message: i,
-								type: "error",
-								showCloseButton: true,
-								hideAfter: 6
-							});
-						});
-					}
+					// if (response.failed == true) {
+					// 	window.location.href = '//localhost/selene_ci/login'
+					// }
+					// else{
+					// 	$.each(response.errors, function(field, i) {
+					//
+					// 		$('#login-' + field).parents(".field").addClass('error');
+					//
+					// 		Messenger().post({
+					// 			message: i,
+					// 			type: "error",
+					// 			showCloseButton: true,
+					// 			hideAfter: 6
+					// 		});
+					// 	});
+					// }
+					console.log('failed');
 				}
 			}
 		});

@@ -106,8 +106,8 @@
 				</a>
 
 
-				<a class="ui simple item right desktop-only" href="<?=base_url('account/profile')?>">
-					<?php echo $this->session->userdata('school'); ?>
+				<a class="ui simple item right desktop-only" href="<?=base_url('start')?>">
+					我的資料
 				</a>
 
 			<?php } else { ?>

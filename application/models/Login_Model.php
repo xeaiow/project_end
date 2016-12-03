@@ -11,7 +11,7 @@ class Login_model extends CI_Model {
 	public function member_login()
 	{
 
-		$this->db->select('member.*, school.sc_name, dept.de_name');
+        $this->db->select('member.*, school.sc_name, dept.de_name');
 		$this->db->from('member');
 
 		$this->db->join('school', 'member.school = school.sc_code');
@@ -29,8 +29,7 @@ class Login_model extends CI_Model {
 
 		$query = $this->db->get();
 
-		if ($query->num_rows() > 0)
-		{
+		if ($query->num_rows() > 0) {
 
 			// 給使用者一組由 loginTimeStamp 這個 helper 裡面產生的時間戳
 			$timestamp = loginTimeStamp($query->row()->rndcode);
@@ -58,8 +57,7 @@ class Login_model extends CI_Model {
 			return true;
 
 		}
-		else
-		{
+		else {
 			return false;
 		}
 
@@ -155,17 +153,17 @@ class Login_model extends CI_Model {
             'd_acc'         =>  NULL,
             'enable'        =>  random_string('sha1'),
             'psw'           =>  sha1($this->input->post('psw')),
-            'firstname'     =>  $this->input->post('firstname'),
+            'firstname'     =>  '吳冠興',
             'rndcode'       =>  $rndcode,
-            'gender'        =>  $this->input->post('gender'),
-			'birthday'      =>  $this->input->post('birthday'),
-            'school'        =>  $this->input->post('school'),
-            'department'    =>  $this->input->post('dept'),
+            'gender'        =>  '1',
+			'birthday'      =>  '1995-06-01',
+            'school'        =>  '50',
+            'department'    =>  '237',
             'introduction'  =>  '',
             'specialty'     =>  '',
             'signature'     =>  '',
             'pic'           =>  '',
-            'constellation' =>  constellation(substr($this->input->post('birthday'), -5, -3), substr($this->input->post('birthday'), -2)),
+            'constellation' =>  '5',
             'reg_date'      =>  date("Y-m-d H:i:s"),
             'gm'            =>  '0',
             'status'        =>  '1',

@@ -303,25 +303,6 @@ class Meet extends CI_Controller {
 
 	}
 
-	// 判斷我是否今天以分析過
-	// public function isToday () {
-	//
-	// 	$result = $this->meet_model->is_today();
-	//
-	// 	if ($result) {
-	//
-	// 		$response['result'] = $result;
-	// 		$response['status'] = true;
-	//
-	// 	}
-	// 	else {
-	// 		$response['status'] = false;
-	// 	}
-	//
-	// 	echo json_encode($response, JSON_UNESCAPED_UNICODE);
-	//
-	// }
-
 
 	// 儲存關鍵字最終結果 (d3文字雲用)
 	public function setKeyResult () {
@@ -352,6 +333,33 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
+	// 擷取或抓取個資
+	public function profile () {
+
+		$result = $this->meet_model->get_or_set_profile();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+		}
+		else{
+
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
+	// 儲存 graph api 抓到的資料
+	public function setProfile () {
+
+		$result = $this->meet_model->set_profile();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
 
 	// Graph api 擷取頁面
     public function start ()
@@ -362,7 +370,6 @@ class Meet extends CI_Controller {
         $this->load->view('account/menu');
 
 		$data['profile'] = $this->account_model->get_member_profile();
-		$data['aa'] = "安安";
         $this->load->view('meet/start', $data);
         $this->load->view('templates/footer');
     }

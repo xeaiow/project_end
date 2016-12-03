@@ -336,4 +336,35 @@ class Meet_model extends CI_Model {
         }
     }
 
+    // 擷取或抓取個資
+    public function get_or_set_profile () {
+
+        $user  = $this->session->userdata('rndcode');
+        $query = $this->db->where('rndcode', $user)->get('meet_profile');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 儲存 graph api 抓到的資料
+    public function set_profile () {
+
+        $user  = $this->session->userdata('rndcode');
+
+        $data = array(
+            'rndcode'       =>  $user,
+            'name'          =>  $this->input->post('name'),
+            'birthday'      =>  $this->input->post('birthday'),
+            'cover'         =>  $this->input->post('cover'),
+            'education'     =>  $this->input->post('education'),
+            'gender'        =>  $this->input->post('gender'),
+            'location'      =>  $this->input->post('location'),
+            'link'          =>  $this->input->post('link'),
+            'updated_time'  =>  $this->input->post('updated_time'),
+            'website'       =>  $this->input->post('website'),
+            'member_id'     =>  $this->input->post('member_id'),
+        );
+
+        $this->db->insert('meet_profile', $data);
+        return ($this->db->affected_rows() == 1) ? true : false;
+    }
+
 }

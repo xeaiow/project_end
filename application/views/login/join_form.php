@@ -5,56 +5,56 @@
 		<div class="eight wide column centered">
 			<div class="ui basic center aligned segment">
 				<h2 class="ui header">
-					加入 Selene！
+					加入 Meet 覓
 				</h2>
 			</div>
 
 				<div class="ui segment large form">
 
-					<div class="field" id="join-school">
+					<!-- <div class="field" id="join-school">
 						<select class="ui search dropdown join-choose" id="join-school-value" ng-model="joinSchool">
 							<option value="">搜尋學校</option>
 							<option value="{{ school.id }}" ng-repeat="school in schoolList">{{ school.title }}</option>
 						</select>
-					</div>
+					</div> -->
 
-					<div class="field" id="school-msg"></div>
+					<!-- <div class="field" id="school-msg"></div> -->
 
-					<div class="field" id="join-dept">
+					<!-- <div class="field" id="join-dept">
 						<select class="ui search dropdown join-choose" ng-model="joinDept">
 							<option value="">搜尋系所</option>
 							<option value="{{ dept.id }}" ng-repeat="dept in deptList">{{ dept.title }}</option>
 						</select>
-					</div>
+					</div> -->
 
-					<div class="field" id="join-gender">
+					<!-- <div class="field" id="join-gender">
 						<select class="ui dropdown join-choose" ng-model="joinGender">
 							<option value="">選擇性別</option>
 							<option value="1">男孩</option>
 							<option value="0">女孩</option>
 						</select>
-					</div>
+					</div> -->
 
-					<div class="field" id="join-birthday">
+					<!-- <div class="field" id="join-birthday">
 						<div class="ui right icon input">
 							<i class="calendar outline grey icon"></i>
 							<input type="text" class="join-choose" mask="2999-19-39" ng-model="joinBirthday" placeholder="生日">
 						</div>
-					</div>
+					</div> -->
 
 					<div class="field" id="join-email">
 						<div class="ui right icon input">
 							<i class="mail grey icon"></i>
-							<input type="text" class="join-choose" ng-model="joinEmail" placeholder="校園信箱">
+							<input type="text" class="join-choose" ng-model="joinEmail" placeholder="電子信箱">
 						</div>
 					</div>
 
-					<div class="field" id="join-firstname">
+					<!-- <div class="field" id="join-firstname">
 						<div class="ui center icon input">
 							<i class="user grey icon"></i>
 							<input type="text" class="join-choose" ng-model="joinFirstname" placeholder="真實姓名">
 						</div>
-					</div>
+					</div> -->
 
 					<div class="field" id="join-psw">
 						<div class="ui center icon input">
@@ -73,7 +73,7 @@
 						<div class="ui positive message">
 							<div class="ui toggle checkbox">
 							  <input type="checkbox" name="example" ng-model="joinTerms">
-							  <label>我同意 Selene 會員條款 <a href="<?=base_url('terms')?>" target="_blank"><i class="ui external share grey icon"></i></a></label>
+							  <label>我同意 Meet 覓 會員條款 <a href="<?=base_url('terms')?>" target="_blank"><i class="ui external share grey icon"></i></a></label>
 							</div>
 						</div>
 					</div>

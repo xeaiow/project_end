@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="content">
-                    <span class="header center aligned"><?php echo $profile['firstname']; ?> <button class="ui icon button basic change-pic"><i class="photo icon"></i></button></span>
+                    <span class="header center aligned"> <button class="ui icon button basic change-pic"><i class="photo icon"></i></button></span>
                 </div>
 
             </div>
@@ -26,8 +26,7 @@
 
     </div>
 
-    <div class="ui small four icon buttons fluid">
-        <button class="ui button nav-blue notinverted" id="lab"><i class="lab icon"></i> 分析</button>
+    <div class="ui small four icon buttons fluid" id="function_block">
 
         <?php
             if (is_null($profile['d_acc'])) {
@@ -41,29 +40,37 @@
         <button class="ui button basic grey" id="profile-hide"><i class="hide icon"></i> 隱藏姓名 <span>(<?php echo ($profile['nameIsHide'] == 1) ? "隱藏" : "顯示"; ?>)</span></button>
     </div>
 
-    <?php
-        // 停抽涅友狀態出現提示訊息
-        if ($profile['stop'] == 1 || $profile['wrn'] == 1) {
-            echo '
-                <div class="ui attached warning message">
-                    <i class="warning sign icon"></i>
-                    <strong class="ui red">目前為停止配對涅友</strong> (增加自介及興趣專長，經審核後即可啟用配對涅友功能)
-                </div>
-            ';
-        }
-    ?>
-
     <div class="ui segment">
         <table class="ui very basic table">
-            <tbody>
+            <tbody id="profile_data">
                 <tr>
-                    <td class="three wide table-th">校名</td>
-                    <td><?php echo $profile['sc_name']; ?></td>
+                    <td class="three wide table-th">姓名</td>
+                    <td></td>
                 </tr>
 
                 <tr>
-                    <td class="table-th">系所</td>
-                    <td><?php echo $profile['de_name']; ?>系</td>
+                    <td class="three wide table-th">生日</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="three wide table-th">學歷</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="three wide table-th">性別</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="three wide table-th">居住地</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="three wide table-th">網站</td>
+                    <td></td>
                 </tr>
 
                 <tr>
@@ -197,7 +204,7 @@
             <i class="remove icon"></i>
             稍等
         </div>
-        <div class="ui green basic inverted button" id="profile-short-setup">
+        <div class="ui nav-blue notinverted button" id="profile-short-setup">
             <i class="checkmark icon"></i>
             繼續
         </div>
@@ -311,47 +318,14 @@
 
 <script>
 
-$('.form textarea').focus(function(){
-
-    var _msg = $(this).parents().eq(2).find('.message');
-
-    $(_msg).transition('fade down').transition('show');
-    $(_msg).find('span').html($(this).val().length);
-
-    $(this).on('change keyup paste', function() {
-
-        $('#profile-save').removeClass('disabled');
-        $(_msg).find('span').html($(this).val().length);
-
-        if ( $(this).val().length > $(this).attr('wordslimit') || $(this).val().length == 0 ) {
-            $(this).parent().addClass('error');
-            $('#profile-save').addClass('disabled');
-        }
-        else {
-            $(this).parent().removeClass('error');
-            $('#profile-save').removeClass('disabled').removeClass('basic');
-        }
-
+    // modal
+    $("#profile-edit-password").click(function(){
+        $("#profile-edit-password-modal").modal('show');
     });
 
-    $(this).focusout(function() {
-        $(_msg).transition('fade down').transition('hide');
+    $("#profile-edit-password-setup").click(function(){
+        $("#profile-edit-password-second-modal").modal('show');
     });
-
-});
-
-$("#profile-edit-password").click(function(){
-    $("#profile-edit-password-modal").modal('show');
-});
-
-$("#profile-edit-password-setup").click(function(){
-    $("#profile-edit-password-second-modal").modal('show');
-});
-
-</script>
-
-<script>
-
 
     FB.init({
         appId: "1708325876106482",
@@ -398,14 +372,78 @@ $("#profile-edit-password-setup").click(function(){
         });
     }
 
+    // 取得 graph api 抓的個資
+    function loadProfile () {
+        $.ajax({
+            type: 'post',
+            url: '//localhost/selene_ci/meet/profile/query',
+            dataType: 'json',
+            error: function (xhr) {
+                errorMsg();
+            },
+            success: function (response) {
+                var response = $.parseJSON(JSON.stringify(response));
+                var start = 2;
+                if (response.status == true) {
+                    for (var i = 1; i < 7; i++) {
+                        $("#profile_data tr:nth-child("+i+") td:nth-child(2)").append(Object.values(response.result[0])[start]);
+                        if ( start == 3 ) { start += 2; } else if ( start == 7 ){ start += 3; } else{ start++; }
+                    }
+                    $("#function_block").prepend('<button class="ui button nav-blue notinverted" id="lab"><i class="lab icon"></i> 分析</button>');
+                }
+                else{
+                    $("#function_block").prepend('<button class="ui button nav-blue notinverted" id="graph"><i class="filter icon"></i> 抓！</button>');
+                    $("#lab").prop("disabled", true); // 如果有抓到值表示我還無需分析
+                }
+            }
+        });
+    }
+
     // 分析
-    $("#lab").click(function() {
+    $(document).on('click', '#lab', function(){
         FB.login(function(response) {
             if (response.authResponse) {
                 dropOld();
             }
         });
-    });
+	});
+
+
+    // 抓
+    $(document).on('click', '#graph', function(){
+        FB.api("me?fields=name,birthday,cover,education,gender,location,link,updated_time,website&locale=zh_TW", function(details) {
+            var response = $.parseJSON(JSON.stringify(details));
+
+                var education = '';
+                $.each(response.education, function(i) {
+                    education += response.education[i].school.name + ",";
+                });
+
+                $.ajax({
+                    type: 'post',
+                    url: '//localhost/selene_ci/meet/profile/save',
+                    dataType: 'json',
+                    data: {
+                        name         : response.name,
+                        birthday     : convertDate(response.birthday),
+                        cover        : response.cover.source,
+                        education    : education.slice(0,-1),
+                        gender       : response.gender,
+                        location     : response.location.name,
+                        link         : response.link,
+                        updated_time : response.updated_time,
+                        website      : response.website,
+                        member_id    : response.id,
+                    },
+                    error: function (xhr) {
+                        errorMsg();
+                    },
+                    success: function (response) {
+                        console.log('success');
+                    }
+                });
+        });
+	});
 
     // 分析前先清除今天以前的資料
     function dropOld () {
@@ -725,10 +763,17 @@ $("#profile-edit-password-setup").click(function(){
             showCloseButton: true,
             hideAfter: 0
         });
+    }
 
+    // mm-dd-yyyy to yyyy-mm-dd
+    var convertDate = function(usDate) {
+    var dateParts = usDate.split(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+        return dateParts[3] + "-" + dateParts[1] + "-" + dateParts[2];
     }
 
     $( document ).ready(function() {
+
+        loadProfile(); // 讀取 graph api 抓到的資料，如果沒抓過，就顯示 "抓" 的按鈕
 
         // 取得我喜歡的專頁
         $.ajax({

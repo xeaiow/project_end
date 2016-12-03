@@ -1,6 +1,6 @@
-<div class="ui thirteen wide column fluid">
+<div class="ui sixteen wide column fluid">
 
-    <!-- 涅友列表 -->
+    <!-- 距離列表 -->
     <div ng-cloak class="ui basic segment stackable four column doubling grid" id="friends-list"></div>
 
 </div>
@@ -90,11 +90,12 @@
                                             '<a class="header center aligned">' +
                                                 response.result[0].sc_name + ' ' + response.result[0].de_name + '系' +
                                             '</a>' +
-                                            '<div class="meta aligned"></div>' +
+                                            '<div class="meta aligned">' + response.result[0].sc_name + '</div>' +
                                         '</div>' +
                                     '</div>' +
                                 '</div>'
                             );
+                            console.log(response.result);
                         }
                     }
                 });

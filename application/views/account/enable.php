@@ -447,8 +447,8 @@
                 </div>
                     <div class="slidetext london">
                         <h1>認證成功</h1>
-                        <h2>與我們憶起創造精彩大學生活吧！</h2>
-                        <a class="bttn" href="<?=base_url('a')?>">進入 Selene</a>
+                        <h2>趕快到 Meet覓 尋找同好吧！</h2>
+                        <a class="bttn" href="<?=base_url('login')?>">進入 Meet覓</a>
                     </div>
                 </div>
           </div>

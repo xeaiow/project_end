@@ -973,12 +973,7 @@ selene.controller('ArticleListCtrl', function($scope, $http, $location, $filter,
 			url: '//localhost/selene_ci/join/confirm',
 			method: "POST",
 			data: {
-				school 		: $scope.joinSchool || '',
-				dept 		: $scope.joinDept || '',
 				email 		: $scope.joinEmail || '',
-				firstname 	: $scope.joinFirstname || '',
-				birthday	: $scope.joinBirthday || '',
-				gender 		: $scope.joinGender || '',
 				psw 		: $scope.joinPassword || '',
 				ck_psw 		: $scope.joinPasswordConfirm || '',
 			}

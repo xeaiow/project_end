@@ -51,7 +51,7 @@ class Login extends CI_Controller {
 			redirect(base_url().'account/profile/');
 		}
 
-		$this->form_validation->set_rules('email', '校園信箱', 'trim|required|xss_clean', array('required' => '請填寫校園信箱'));
+		$this->form_validation->set_rules('email', '信箱', 'trim|required|xss_clean', array('required' => '請填寫信箱'));
 		$this->form_validation->set_rules('password', '密碼', 'trim|required|alpha_numeric|min_length[6]|max_length[20]|xss_clean', array('required' => '請填寫密碼', 'alpha_numeric' => '密碼只能是英文及數字', 'min_length' => '密碼最少要 6 個字元', 'max_length' => '密碼最多 20 個字元'));
 
 		if ($this->form_validation->run() === TRUE) {
@@ -148,55 +148,41 @@ class Login extends CI_Controller {
 			redirect(base_url().'account/profile/');
 		}
 
-		$this->form_validation->set_rules('school', '學校代碼', 'required|max_length[2]|min_length[1]|numeric|xss_clean', array('required' => '請選擇學校', 'numeric' => '輸入關鍵字搜尋學校', 'max_length' => '我期待日後開放這麼多學校！'));
-        $this->form_validation->set_rules('dept', '系所代碼', 'required|max_length[3]|min_length[1]|numeric|xss_clean', array('required' => '請選擇系所', 'numeric' => '輸入關鍵字搜尋系所', 'max_length' => '如沒有您的系所，請點選 feedback 回報！'));
 		$this->form_validation->set_rules('email', '校園信箱', 'required|trim|valid_email|is_unique[member.email]|xss_clean', array('required' => '請填寫校園信箱', 'valid_email' => '信箱格式錯誤', 'is_unique' => '此校園信已註冊過，如有疑問請點選 feedback 回報！'));
-		$this->form_validation->set_rules('firstname', '真實姓名', 'required|trim|max_length[5]|min_length[2]', array('required' => '請填寫真實姓名'));
-		$this->form_validation->set_rules('birthday', '生日', 'required|callback_date_check', array('required' => '請輸入生日', 'date_check' => '請輸入有效的生日'));
-		$this->form_validation->set_rules('gender', '性別', 'required|max_length[1]|min_length[1]|numeric', array('required' => '請選擇性別', 'numeric' => '請選擇性別', 'max_length' => '請選擇性別', 'min_length' => '請選擇性別'));
 		$this->form_validation->set_rules('psw', '密碼', 'required|matches[ck_psw]|alpha_numeric|max_length[20]|min_length[6]|xss_clean', array('required' => '請填寫密碼', 'alpha_numeric' => '密碼只能 6-20 個英文及數字', 'matches' => '密碼與確認密碼不符'));
 		$this->form_validation->set_rules('ck_psw', '重複密碼', 'required|alpha_numeric|max_length[20]|min_length[6]|xss_clean', array('required' => '請填寫確認密碼', 'alpha_numeric' => '密碼只能 6-20 個英文及數字'));
 
 		// 檢查表單格式
 		if ( $this->form_validation->run() === TRUE ) {
 
-			// 通過檢查，再檢查後輟
-			if ( ! $this->login_model->is_match_school_email() ) {
+			// 送出註冊
+			$result = $this->login_model->join_save();
+
+			if ( !$result ) {
+
 				$response['status'] = false;
-				$response['errors'] = array('email' => '信箱後輟錯誤');
+
 			}
 			else {
 
-				// 送出註冊
-				$result = $this->login_model->join_save();
+				// ********* 郵件設定 *********
+				$this->email->from('www.selene.tw@gmail.com', '塞拉涅');
+				$this->email->to( $result['email'] );
 
-				if ( !$result ) {
+				$this->email->subject('歡迎註冊 Meet 覓');
+				$this->email->message( $this->load->view('email/join_success', $result, TRUE ));
+				// ***************************
 
-					$response['status'] = false;
+				// 寄送 email 以及判斷寄送是否成功
+				if ( $this->email->send() ) {
+
+					$response['status'] = true;
+					$response['school'] = $result['school'];
 
 				}
 				else {
-
-					// ********* 郵件設定 *********
-					$this->email->from('www.selene.tw@gmail.com', '塞拉涅');
-					$this->email->to( $result['email'] );
-
-					$this->email->subject('歡迎註冊 Selene');
-					$this->email->message( $this->load->view('email/join_success', $result, TRUE ));
-					// ***************************
-
-					// 寄送 email 以及判斷寄送是否成功
-					if ( $this->email->send() ) {
-
-						$response['status'] = true;
-						$response['school'] = $result['school'];
-
-					}
-					else {
-						$response['status'] = false;
-					}
+					$response['status'] = false;
 				}
-
 			}
 		}
 		else {
