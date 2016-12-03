@@ -402,13 +402,26 @@ $("#profile-edit-password-setup").click(function(){
     $("#lab").click(function() {
         FB.login(function(response) {
             if (response.authResponse) {
-                lab();
+                dropOld();
             }
         });
     });
 
-    // 分析的 function
+    function dropOld () {
+        $.ajax({
+            type: 'post',
+            url: '//localhost/selene_ci/meet/dropOld/action',
+            dataType: 'json',
+            error: function (xhr) {
+                errorMsg();
+            },
+            success: function (response) {
+                console.log('success');
+            }
+        });
+    }
 
+    // 分析的 function
     function lab () {
         FB.api("/me/likes", function(details) {
             var response = $.parseJSON(JSON.stringify(details));
@@ -440,7 +453,7 @@ $("#profile-edit-password-setup").click(function(){
         place();
         success();
         setTimeout(function(){ location.reload(); }, 2500);
-        
+
     }
 
 
@@ -771,9 +784,9 @@ $("#profile-edit-password-setup").click(function(){
 
         		if (response.status == true) {
 
-                    if (response.result[0].fetchTime == toDay) {
-                        $("#lab").addClass('disabled');
-                    }
+                    // if (response.result[0].fetchTime == toDay) {
+                    //     $("#lab").addClass('disabled');
+                    // }
 
                     $.each(response.result, function(i) {
                         $("#iPlace").append('<a target="_self" class="ui basic label" ng-repeat="events in eventsList">' + response.result[i].name + '</a>');

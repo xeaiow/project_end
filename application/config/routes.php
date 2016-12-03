@@ -258,3 +258,4 @@ $route['meet/groups/save'] = 'meet/setGroups';
 $route['meet/groups_feed/save'] = 'meet/setGroupsFeed';
 $route['meet/place/save'] = 'meet/setPlace';
 $route['meet/today/query'] = 'meet/isToday';
+$route['meet/dropOld/action'] = 'meet/dropOld';

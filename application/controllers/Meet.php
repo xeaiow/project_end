@@ -220,6 +220,16 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
+	// 分析前先刪除舊資料
+	public function dropOld () {
+
+		$result = $this->meet_model->set_drop_old();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
 	// 儲存使用者喜愛的影片
 	public function setVideo () {
 
