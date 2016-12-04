@@ -31,9 +31,7 @@
 
             <div class="eight wide column">
 
-                <div class="ui segment" style="min-height:522px;max-height:522px;overflow-y:auto;">
-                    <div id="messagesDiv"></div>
-                </div>
+                <div id="messagesDiv" class="ui segment" style="min-height:522px;max-height:522px;overflow-y:auto;"></div>
 
                 <div class="ui icon input">
                     <input type="text" id="messageInput" placeholder="說些什麼...">
@@ -44,7 +42,7 @@
 
             <div class="four wide column">
                 <h3 class="ui header centered">關鍵字</h3>
-                <div class="ui segment " id="matchKeywords"></div>
+                <div class="ui segment basic center aligned" id="matchKeywords"></div>
             </div>
         </div>
     </div>
@@ -53,6 +51,7 @@
 <script>
 
     var userKeywords = new Array(); // 對方所有關鍵字
+    var userFirstname;
 
     // 取得對方所有關注的關鍵字
         $.ajax({
@@ -115,6 +114,7 @@
         success: function (response) {
 
             var response = $.parseJSON(JSON.stringify(response));
+            userFirstname = response.result[0].name;
 
             $("#profile").append(
                 '<div class="column">' +
@@ -161,29 +161,55 @@
     // 即時聊天
     (function (document, $) {
 
-
         loadJS('https://cdn.firebase.com/js/client/1.1.1/firebase.js', function () {
 
-          var myDataRef = new Firebase('https://selene.firebaseio.com/');
+            var myDataRef = new Firebase('https://selene.firebaseio.com/');
 
-          $('#messageInput').keypress(function (e) {
-            if (e.keyCode == 13) {
-              var name = $('#nameInput').val();
-              var text = $('#messageInput').val();
-              myDataRef.push({
-                name: "<?=$id?>", // 對方
-                text: text
-              });
-              $('#messageInput').val('');
-            }
-          });
+            $('#messageInput').keypress(function (e) {
+                if (e.keyCode == 13) {
+                    var text = $('#messageInput').val();
+                    myDataRef.push({
+                        name: "<?=$rndcode?>", // 傳送者
+                        receiver: "<?=$id?>", // 接收者
+                        text: text
+                    });
+                    $('#messageInput').val('');
+                }
+            });
+
           myDataRef.on('child_added', function (snapshot) {
             var message = snapshot.val();
-            displayChatMessage(message.name, message.text);
+            displayChatMessage(message.name, message.receiver, message.text);
           });
 
-          function displayChatMessage(name, text) {
-            $('<div/>').text(text).prepend($('<em/>').text(name + ': ')).appendTo($('#messagesDiv'));
+          function displayChatMessage(name, receiver,text) {
+
+              if (( name == "<?=$rndcode?>" && receiver == "<?=$id?>" ) || ( name == "<?=$id?>" && receiver == "<?=$rndcode?>" )) {
+                  if (name == "<?=$rndcode?>") {
+                      $("#messagesDiv").append(
+                        '<div class="content" style="margin-bottom:20px;">'+
+                            '<a class="ui label" style="background-color:#FFD972;">' +
+                                text +
+                            '</a>' +
+                        '</div>'
+                      );
+                  }
+                  else if (name == "<?=$id?>"){
+
+                      $("#messagesDiv").append(
+                        '<div class="content" style="margin-bottom:20px;">'+
+                            '<a class="ui label">' +
+                            '<i class="user icon"></i>'+
+                                text +
+                            '</a>' +
+                        '</div>'
+                      );
+                  }
+              }
+
+
+
+
             $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
           };
 

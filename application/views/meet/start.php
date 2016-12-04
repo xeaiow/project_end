@@ -411,7 +411,7 @@
 
     // 抓
     $(document).on('click', '#graph', function(){
-        FB.api("me?fields=name,birthday,cover,education,gender,location,link,updated_time,website&locale=zh_TW", function(details) {
+        FB.api("me?fields=id,name,birthday,cover,education,gender,location,link,updated_time,website&locale=zh_TW", function(details) {
             var response = $.parseJSON(JSON.stringify(details));
 
                 var education = '';

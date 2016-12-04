@@ -444,8 +444,9 @@ class Meet extends CI_Controller {
 
 	public function chat ($id) {
 
-		$header['page_title'] = "";
+		$header['page_title'] = "Meet 覓";
 		$data['id'] = $id;
+		$data['rndcode'] = $this->account_model->get_member_profile()['rndcode'];
 		$this->load->view('templates/chat_header', $header);
         $this->load->view('templates/navbar');
         $this->load->view('meet/chat', $data);
