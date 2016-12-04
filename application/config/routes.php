@@ -264,3 +264,5 @@ $route['meet/chatProfile/query'] = 'meet/getChatProfile';
 $route['meet/profile/save'] = 'meet/setProfile';
 $route['meet/addMatchKeywords/save'] = 'meet/setMatchKeywords';
 $route['meet/MatchKeywords/query'] = 'meet/getMatchKeywords';
+$route['meet/slefPlace/query'] = 'meet/getSelfPlace';
+$route['place'] = 'meet/place';

@@ -143,11 +143,14 @@
                                         user_init++;
                                     }
                                 });
-
                                 user_loop++;
                             }
                         }
                     });
+
+                }
+                else{
+                    console.log(user_loop);
                 }
 
             }

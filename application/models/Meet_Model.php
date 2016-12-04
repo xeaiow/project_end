@@ -385,6 +385,14 @@ class Meet_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 
+    // 取得我的打卡
+    public function get_selfPlace () {
+
+        $user  = $this->session->userdata('rndcode');
+        $query = $this->db->where('username', $user)->get('meet_place');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
     // 儲存 graph api 抓到的資料
     public function set_profile () {
 

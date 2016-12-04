@@ -418,6 +418,24 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
+	// 取得我的打卡
+	public function getSelfPlace () {
+
+		$result = $this->meet_model->get_selfPlace();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+		}
+		else{
+
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
 	// Graph api 擷取頁面
     public function start ()
     {
@@ -459,6 +477,15 @@ class Meet extends CI_Controller {
 		$this->load->view('templates/header', $header);
         $this->load->view('templates/navbar');
         $this->load->view('meet/distance');
+        $this->load->view('templates/footer');
+	}
+
+	public function place () {
+
+		$header['page_title'] = "環遊 - Meet覓";
+		$this->load->view('templates/header', $header);
+        $this->load->view('templates/place_navbar');
+        $this->load->view('meet/place');
         $this->load->view('templates/footer');
 	}
 
