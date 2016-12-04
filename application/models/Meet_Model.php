@@ -309,15 +309,48 @@ class Meet_model extends CI_Model {
 
         $user  = $this->session->userdata('rndcode');
         $keywords = $this->input->post('keywords');
-        $query = $this->db->query('SELECT username FROM meet_keywords WHERE keywords REGEXP ("' . implode("|",$keywords) . '") AND username != "'.$user.'"');
+        $query = $this->db->query('SELECT username, keywords FROM meet_keywords WHERE keywords REGEXP ("' . implode("|",$keywords) . '") AND username != "'.$user.'"');
         return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 抓到跟我相符的關鍵字存入，給聊天介面用的
+    public function set_match_keywords () {
+
+        $user  = $this->input->post('username');
+        $keywords = $this->input->post('keywords');
+
+        $result = $this->ju_match_keywords($user, $keywords); // call ju_match_keywords 判斷是否已有資料
+
+        if ($result) {
+            $query = $this->db->query('INSERT INTO meet_matchkeywords (username, keywords) VALUES ("'.$user.'", "'.$keywords.'")');
+            return ($this->db->affected_rows() > 0) ? true : false;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+    // ↑ 判斷是否以儲存關鍵字，沒儲存過才儲存
+    public function ju_match_keywords ($user, $keywords) {
+
+        $query = $this->db->query('SELECT keywords FROM meet_matchkeywords WHERE username = "'.$user.'" AND keywords = "'.$keywords.'"');
+        return ($query->num_rows() > 0) ? false : true;
+    }
+
+    // 取得該會員與我的相同關鍵字
+    public function get_match_keywords () {
+
+        $user = $this->input->post('username');
+        $query = $this->db->query('SELECT keywords FROM meet_matchkeywords WHERE username = "'.$user.'"');
+        return ($query->num_rows() > 0) ? $query->result_array() : true;
     }
 
     // 取得前三多關鍵字使用者
     public function get_match_keywords_three () {
 
         $matchUsername = $this->input->post('matchUsername');
-        $query = $this->db->query('SELECT * FROM member, school, dept WHERE member.rndcode = "'.$matchUsername.'" AND member.school = school.sc_code AND member.department = dept.de_code');
+        $query = $this->db->query('SELECT * FROM meet_profile WHERE rndcode = "'.$matchUsername.'"');
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 
@@ -344,6 +377,14 @@ class Meet_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 
+    // 聊天介面 - 擷取該使用者資料
+    public function get_chat_profile () {
+
+        $user  = $this->input->post('username');
+        $query = $this->db->where('rndcode', $user)->get('meet_profile');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
     // 儲存 graph api 抓到的資料
     public function set_profile () {
 
@@ -361,6 +402,7 @@ class Meet_model extends CI_Model {
             'updated_time'  =>  $this->input->post('updated_time'),
             'website'       =>  $this->input->post('website'),
             'member_id'     =>  $this->input->post('member_id'),
+            'pic'           =>  $this->input->post('picture'),
         );
 
         $this->db->insert('meet_profile', $data);

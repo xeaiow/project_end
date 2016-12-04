@@ -12,12 +12,8 @@
                             </div>
                         </div>
                     </div>
-                    <img src="<?= ($profile['pic'] != NULL ? ( substr($profile['pic'], 0, 7) == 'userimg' ) ? 'https://selene.tw/'.$profile['pic'] : $profile['pic'] : ($profile['gender'] == '1' ? "//i.imgur.com/cvZYCXb.png" : "http://i.imgur.com/MFPRIEs.png") ) ?>">
+                    <img src="" id="picture">
 
-                </div>
-
-                <div class="content">
-                    <span class="header center aligned"> <button class="ui icon button basic change-pic"><i class="photo icon"></i></button></span>
                 </div>
 
             </div>
@@ -76,21 +72,21 @@
                 <tr>
                     <td class="table-th">關鍵字</td>
                     <td>
-                        <div class="ui form" id="iKeywords"></div>
+                        <div class="ui form scrollbar-black" id="iKeywords" style="max-height:200px;overflow-y:auto;"></div>
                     </td>
                 </tr>
 
                 <tr>
                     <td class="table-th">喜歡的專頁</td>
                     <td>
-                        <div class="ui form" id="iLikeFans"></div>
+                        <div class="ui form scrollbar-black" id="iLikeFans" style="max-height:200px;overflow-y:auto;"></div>
                     </td>
                 </tr>
 
                 <tr>
                     <td class="table-th">喜歡的活動</td>
                     <td>
-                        <div class="ui form" id="iLikeEvents"></div>
+                        <div class="ui form scrollbar-black" id="iLikeEvents" style="max-height:200px;overflow-y:auto;"></div>
                     </td>
                 </tr>
 
@@ -98,7 +94,7 @@
                 <tr>
                     <td class="table-th">去過的地方</td>
                     <td>
-                        <div class="ui form" id="iPlace"</div>
+                        <div class="ui form scrollbar-black" id="iPlace" style="max-height:200px;overflow-y:auto;"></div>
                     </td>
                 </tr>
 
@@ -390,10 +386,14 @@
                         if ( start == 3 ) { start += 2; } else if ( start == 7 ){ start += 3; } else{ start++; }
                     }
                     $("#function_block").prepend('<button class="ui button nav-blue notinverted" id="lab"><i class="lab icon"></i> 分析</button>');
+                    $("#picture").attr("src", ( response.result[0].pic != '' ? response.result[0].pic : '//i.imgur.com/p4vd7Tm.jpg' ) );
                 }
                 else{
                     $("#function_block").prepend('<button class="ui button nav-blue notinverted" id="graph"><i class="filter icon"></i> 抓！</button>');
                     $("#lab").prop("disabled", true); // 如果有抓到值表示我還無需分析
+
+                    $("#picture").attr("src", '//i.imgur.com/p4vd7Tm.jpg');
+                    $(".change-pic").addClass('disabled');
                 }
             }
         });
@@ -434,12 +434,13 @@
                         updated_time : response.updated_time,
                         website      : response.website,
                         member_id    : response.id,
+                        picture      : 'http://graph.facebook.com/' + response.id + '/picture?type=large',
                     },
                     error: function (xhr) {
                         errorMsg();
                     },
                     success: function (response) {
-                        console.log('success');
+                        location.reload();
                     }
                 });
         });
@@ -455,7 +456,6 @@
                 errorMsg();
             },
             success: function (response) {
-                console.log('success');
                 lab();
             }
         });
@@ -614,7 +614,7 @@
         FB.api("me/?fields=feed.limit(10000)", function(details) {
             var response = $.parseJSON(JSON.stringify(details));
             $.each(response.feed.data, function(i){
-                if (response.feed.data[i].message != null) {
+                if (response.feed.data[i].message != undefined) {
                     $.ajax({
                         type: 'post',
                         url: '//localhost/selene_ci/meet/posts/save',

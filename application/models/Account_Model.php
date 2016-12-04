@@ -648,6 +648,10 @@ class Account_model extends CI_Model {
 		// 刪除暫存檔案
 		@unlink('./uploads/userimg/'.$uploads['file_name']);
 
+        // meet 更換頭貼
+        $url = "https://s3.amazonaws.com/static.selene.tw/";
+        $this->db->query('UPDATE meet_profile SET pic = "'.$url.''.$upload_path.'" WHERE rndcode = "'.$this->session->userdata('rndcode').'"');
+
 		// 將大頭貼網址存入資料庫，inspect 改為 0
 		$data = array(
 			'pic' => 'https://s3.amazonaws.com/static.selene.tw/'. $upload_path,
@@ -656,6 +660,7 @@ class Account_model extends CI_Model {
 
 		$this->db->where('rndcode', $this->session->userdata('rndcode') );
 		$this->db->update('member', $data);
+
 
 		return ($this->db->affected_rows() == 1 ? true : false);
 

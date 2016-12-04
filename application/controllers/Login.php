@@ -48,7 +48,7 @@ class Login extends CI_Controller {
 	public function login_handle () {
 
 		if ( !$this->input->is_ajax_request() ) {
-			redirect(base_url().'account/profile/');
+			redirect(base_url().'account/start/');
 		}
 
 		$this->form_validation->set_rules('email', '信箱', 'trim|required|xss_clean', array('required' => '請填寫信箱'));

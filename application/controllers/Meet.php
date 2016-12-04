@@ -181,6 +181,45 @@ class Meet extends CI_Controller {
 		// $this->output->enable_profiler(TRUE);
 	}
 
+
+	// 抓到跟我相符的關鍵字存入，給聊天介面用的
+	public function setMatchKeywords () {
+
+		$result = $this->meet_model->set_match_keywords();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
+	// ↑ 判斷是否以儲存關鍵字，沒儲存過才儲存
+	public function juMatchKeywords () {
+
+		$result = $this->meet_model->ju_match_keywords();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
+	// 取得該會員與我的相同關鍵字
+	public function getMatchKeywords () {
+
+		$result = $this->meet_model->get_match_keywords();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
 	// 儲存使用者喜歡的粉專
 	public function setLikes () {
 
@@ -351,6 +390,24 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
+	// 聊天介面 - 擷取該使用者資料
+	public function getChatProfile () {
+
+		$result = $this->meet_model->get_chat_profile();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+		}
+		else{
+
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
 	// 儲存 graph api 抓到的資料
 	public function setProfile () {
 
@@ -389,7 +446,7 @@ class Meet extends CI_Controller {
 
 		$header['page_title'] = "";
 		$data['id'] = $id;
-		$this->load->view('templates/header', $header);
+		$this->load->view('templates/chat_header', $header);
         $this->load->view('templates/navbar');
         $this->load->view('meet/chat', $data);
         $this->load->view('templates/footer');

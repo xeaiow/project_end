@@ -260,4 +260,7 @@ $route['meet/place/save'] = 'meet/setPlace';
 $route['meet/today/query'] = 'meet/isToday';
 $route['meet/dropOld/action'] = 'meet/dropOld';
 $route['meet/profile/query'] = 'meet/profile';
+$route['meet/chatProfile/query'] = 'meet/getChatProfile';
 $route['meet/profile/save'] = 'meet/setProfile';
+$route['meet/addMatchKeywords/save'] = 'meet/setMatchKeywords';
+$route['meet/MatchKeywords/query'] = 'meet/getMatchKeywords';
