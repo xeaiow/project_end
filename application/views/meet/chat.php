@@ -31,9 +31,9 @@
 
             <div class="eight wide column">
 
-                <div id="messagesDiv" class="ui segment" style="min-height:522px;max-height:522px;overflow-y:auto;"></div>
+                <div id="messagesDiv" class="ui segment loading" style="min-height:522px;max-height:522px;overflow-y:auto;"></div>
 
-                <div class="ui icon input">
+                <div class="ui icon input fluid">
                     <input type="text" id="messageInput" placeholder="說些什麼...">
                     <i class=" circular send link icon"></i>
                 </div>
@@ -184,6 +184,7 @@
 
           function displayChatMessage(name, receiver,text) {
 
+              $("#messagesDiv").removeClass('loading'); // loading
               if (( name == "<?=$rndcode?>" && receiver == "<?=$id?>" ) || ( name == "<?=$id?>" && receiver == "<?=$rndcode?>" )) {
                   if (name == "<?=$rndcode?>") {
                       $("#messagesDiv").append(
@@ -206,30 +207,21 @@
                       );
                   }
               }
-
-
-
-
-            $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
           };
-
         });
 
 
-
-      function loadJS(src, callback) {
-        var head = document.getElementsByTagName("head")[0],
-          script = document.createElement('script');
-        script.src = src;
-        script.onload = callback;
-        script.onerror = function (e) {
-          alert("failed: " + JSON.stringify(e));
-        };
-        head.appendChild(script);
-        head.removeChild(script);
-      }
-
-    }(document, jQuery));
+        function loadJS(src, callback) {
+            var head = document.getElementsByTagName("head")[0],
+            script = document.createElement('script');
+            script.src = src;
+            script.onload = callback;
+            script.onerror = function (e) {
+                alert("failed: " + JSON.stringify(e));
+            };
+            head.appendChild(script);
+            head.removeChild(script);
+        }}(document, jQuery));
 
     $('.menu .item').tab();
 
