@@ -28,8 +28,8 @@
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/style.css">
 	<link href="https://s3.amazonaws.com/static.selene.tw/assets/messenger.css" rel="stylesheet" media="screen">
 	<link href="https://s3.amazonaws.com/static.selene.tw/assets/messenger-theme-flat.css" rel="stylesheet" media="screen">
-    <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	<script src="https://s3.amazonaws.com/static.selene.tw/assets/jquery.min.js"></script>
+    <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	<script src="<?=base_url()?>assets/semantic.min.js"></script>
     <script src="<?=base_url()?>assets/fastclick.js"></script>
 	<script src="https://s3.amazonaws.com/static.selene.tw/assets/moment.js"></script>

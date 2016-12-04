@@ -1,44 +1,14 @@
-
-	<div class="ui left vertical inverted sidebar scrollbar-black labeled icon menu" ng-controller="ArticleListCtrl" id="sidebar-school">
-		<a class="item" ng-href="<?=base_url('a')?>/{{ type.di_code }}" ng-repeat="type in typeList | filter: {di_sch: 1}" ng-bind="type.di_name"></a>
-	</div>
-
-	<div class="ui left vertical inverted sidebar scrollbar-black labeled icon menu" ng-controller="ArticleListCtrl" id="sidebar-dis">
-		<a class="item" ng-href="<?=base_url('a')?>/{{ type.di_code }}" ng-repeat="type in typeList | filter: {di_sch: 0}" ng-bind="type.di_name"></a>
-	</div>
-
 <?php if ( $this->session->userdata('ts') ) { ?>
 
 	<div class="ui left vertical inverted sidebar labeled menu" id="sidebar-menu">
-		<a class="item" href="<?=base_url('account/profile')?>">
-			我的名片
+		<a class="item" href="<?=base_url('distance')?>">
+			距離
 		</a>
-		<a class="item" href="<?=base_url('account/friends')?>">
-			我的涅友
-		</a>
-		<a class="item" href="<?=base_url('account/article')?>">
-			我的文章
-		</a>
-		<a class="item" href="<?=base_url('friend')?>">
-			今日涅友
-		</a>
-		<a class="item" href="<?=base_url('activity/siege')?>">
-			攻城戰
-		</a>
-		<a class="item" href="<?=base_url('account/school')?>">
-			進入校板
+		<a class="item" href="<?=base_url('start')?>">
+			我的資料
 		</a>
 		<a class="item" href="<?=base_url('other/problem')?>">
 			回報問題
-		</a>
-		<a class="item" href="<?=base_url('activity/join')?>">
-			涅活動
-		</a>
-		<a class="item" href="<?=base_url('other/shop')?>">
-			涅商店
-		</a>
-		<a class="item" href="<?=base_url('other/teach')?>">
-			涅知識
 		</a>
 		<a class="item" href="<?=base_url('logout')?>">
 			登出
@@ -48,7 +18,7 @@
 
 	<div class="ui sidebar inverted vertical menu scrollbar-black" id="sidebar-notice" ng-controller="NotificationCtrl">
 
-		<a class="item notice" target="_self" ng-href="<?=base_url('account/query/notice/check')?>/{{ notice.tr_id }}"
+		<!-- <a class="item notice" target="_self" ng-href="<?=base_url('account/query/notice/check')?>/{{ notice.tr_id }}"
 			ng-repeat="notice in noticeList.article">
 			<i class="comments icon"></i> 你追蹤的文章 「{{ notice.art_name }}」 有新的留言
 		</a>
@@ -56,7 +26,7 @@
 		<a class="item notice" target="_self" ng-href="<?=base_url('account/friends')?>"
 			ng-if="noticeList.account.sms == '1'">
 			<i class="comments icon"></i> 你有新訊息！
-		</a>
+		</a> -->
 
 	</div>
 <?php } else { ?>
@@ -64,7 +34,7 @@
 		<div class="ui center aligned page grid">
 			<div class="one column row">
 				<div class="sixteen wide column">
-					<h3 class="ui header inverted">嗨！ 歡迎來到 Selene，讓我們一起開啟這段旅程吧！</h3>
+					<h3 class="ui header inverted">嗨！ 歡迎來到 Meet覓，讓我們一起開啟這段分析之旅吧！</h3>
 				</div>
 			</div>
 			<div class="three column divided row">

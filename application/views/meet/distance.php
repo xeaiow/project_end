@@ -1,12 +1,9 @@
-<div class="ui grid stackable container">
-    <div class="ui sixteen wide column fluid">
+    <div class="ui thirteen wide column">
 
-        <!-- 距離列表 -->
         <div ng-cloak class="ui basic segment stackable four column doubling grid" id="friends-list"></div>
 
     </div>
-</div> <!-- end of container -->
-
+</div>
 <script>
 
     var userKeywords = new Array(); // 對方所有關鍵字

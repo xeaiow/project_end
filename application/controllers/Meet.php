@@ -443,7 +443,6 @@ class Meet extends CI_Controller {
         $this->load->view('templates/header', $header);
         $this->load->view('templates/navbar');
         $this->load->view('account/menu');
-
 		$data['profile'] = $this->account_model->get_member_profile();
         $this->load->view('meet/start', $data);
         $this->load->view('templates/footer');
@@ -476,6 +475,7 @@ class Meet extends CI_Controller {
 		$header['page_title'] = "距離 - Meet覓";
 		$this->load->view('templates/header', $header);
         $this->load->view('templates/navbar');
+		$this->load->view('account/menu');
         $this->load->view('meet/distance');
         $this->load->view('templates/footer');
 	}
