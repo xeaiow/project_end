@@ -79,7 +79,7 @@
                 }
             });
         }
-        // TODO: 到聊天頁面再判斷是否有相同關鍵字，否則踢走
+
         var aa = 0;
         function loadMatchUserThree () {
 
@@ -119,37 +119,36 @@
                                         '</div>' +
                                     '</div>'
                                 );
-
-                                $.ajax({
-                                    type: 'post',
-                                    url: '//localhost/selene_ci/meet/MatchKeywords/query',
-                                    dataType: 'json',
-                                    data: {
-                                        username : Object.keys(counts)[1],
-                                    },
-                                    error: function (xhr) {
-                                        errorMsg();
-                                    },
-                                    success: function (response) {
-
-                                        var response = $.parseJSON(JSON.stringify(response));
-
-                                        $.each(response.result, function(i) {
-                                            $('.keywords:eq('+user_init+')').append('<a class="ui basic label">' + response.result[i].keywords + '</a>');
-                                        });
-
-                                        user_init++;
-
-                                    }
-                                });
-                                aa++;
-                                user_loop++;
-
-                                console.log(aa);
                             }
                         }
                     });
 
+                    $.ajax({
+                        type: 'post',
+                        url: '//localhost/selene_ci/meet/MatchKeywords/query',
+                        dataType: 'json',
+                        data: {
+                            username : Object.keys(counts)[i],
+                        },
+                        error: function (xhr) {
+                            errorMsg();
+                        },
+                        success: function (response) {
+
+                            var response = $.parseJSON(JSON.stringify(response));
+
+                            $.each(response.result, function(i) {
+                                $('.keywords:eq('+user_init+')').append('<a class="ui basic label">' + response.result[i].keywords + '</a>');
+                            });
+
+                            user_init++;
+
+                        }
+                    });
+                    aa++;
+                    user_loop++;
+
+                    console.log(aa);
                 }
                 else{
                     aa++;
