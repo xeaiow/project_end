@@ -436,6 +436,25 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
+	// 判斷這三天是否已經分析過
+	public function isToday () {
+
+		$result = $this->meet_model->is_today();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+		}
+		else{
+
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+
+	}
+
 	// Graph api 擷取頁面
     public function start ()
     {

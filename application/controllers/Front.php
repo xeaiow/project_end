@@ -11,7 +11,7 @@ class Front extends CI_Controller {
 
 		$is_login = $this->system_model->is_login();
 		if ( $is_login ) {
-			redirect(base_url('a'));
+			redirect(base_url('start'));
 		}
     }
 

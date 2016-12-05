@@ -22,8 +22,9 @@
 
     </div>
 
-    <div class="ui small four icon buttons fluid" id="function_block">
+    <div class="ui small icon buttons fluid" id="function_block">
 
+        <button class="ui button nav-blue notinverted" id="lab"><i class="lab icon"></i> 分析</button>
         <?php
             if (is_null($profile['d_acc'])) {
                 echo '<button class="ui button basic grey" id="profile-short"><i class="cut icon"></i> 建立短帳號</button>';
@@ -349,24 +350,21 @@
         }
     });
 
-    // 今天日否以分析過
-    function is_Today() {
+    // 近 3 日否已分析過
+    $.ajax({
+        type: 'post',
+        url: '//localhost/selene_ci/meet/istoday/query',
+        dataType: 'json',
+        error: function (xhr) {
+            errorMsg();
+        },
+        success: function (response) {
+            var response = $.parseJSON(JSON.stringify(response));
+            // 如果資料是 3 天前的，就給他重新分析
+            ( response.status == true ? ( response.result.diff >= 3 ? $("#lab").show() : '' ) : '' );
+        }
+    });
 
-        $.ajax({
-            type: 'post',
-            url: '//localhost/selene_ci/meet/today/query',
-            dataType: 'json',
-            error: function (xhr) {
-                errorMsg();
-            },
-            success: function (response) {
-                var response = $.parseJSON(JSON.stringify(response));
-                if (response.status == true) {
-                    $("#lab").prop("disabled", true); // 如果有抓到值表示我還無需分析
-                }
-            }
-        });
-    }
 
     // 取得 graph api 抓的個資
     function loadProfile () {
@@ -385,13 +383,12 @@
                         $("#profile_data tr:nth-child("+i+") td:nth-child(2)").append(Object.values(response.result[0])[start]);
                         if ( start == 3 ) { start += 2; } else if ( start == 7 ){ start += 3; } else{ start++; }
                     }
-                    $("#function_block").prepend('<button class="ui button nav-blue notinverted" id="lab"><i class="lab icon"></i> 分析</button>');
                     $("#picture").attr("src", ( response.result[0].pic != '' ? response.result[0].pic : '//i.imgur.com/p4vd7Tm.jpg' ) );
+
                 }
                 else{
-                    $("#function_block").prepend('<button class="ui button nav-blue notinverted" id="graph"><i class="filter icon"></i> 抓！</button>');
-                    $("#lab").prop("disabled", true); // 如果有抓到值表示我還無需分析
 
+                    $("#lab").show();
                     $("#picture").attr("src", '//i.imgur.com/p4vd7Tm.jpg');
                     $(".change-pic").addClass('disabled');
                 }
@@ -399,7 +396,7 @@
         });
     }
 
-    // 分析
+    // 分析前先刪除舊資料
     $(document).on('click', '#lab', function(){
         FB.login(function(response) {
             if (response.authResponse) {
@@ -409,8 +406,27 @@
 	});
 
 
-    // 抓
-    $(document).on('click', '#graph', function(){
+    // 分析前先清除今天以前的資料
+    function dropOld () {
+        $.ajax({
+            type: 'post',
+            url: '//localhost/selene_ci/meet/dropOld/action',
+            dataType: 'json',
+            error: function (xhr) {
+                errorMsg();
+            },
+            success: function (response) {
+                lab();
+            }
+        });
+    }
+
+
+
+    // 分析的 function
+    function lab () {
+
+        // 抓個資
         FB.api("me?fields=id,name,birthday,cover,education,gender,location,link,updated_time,website&locale=zh_TW", function(details) {
             var response = $.parseJSON(JSON.stringify(details));
 
@@ -444,25 +460,8 @@
                     }
                 });
         });
-	});
 
-    // 分析前先清除今天以前的資料
-    function dropOld () {
-        $.ajax({
-            type: 'post',
-            url: '//localhost/selene_ci/meet/dropOld/action',
-            dataType: 'json',
-            error: function (xhr) {
-                errorMsg();
-            },
-            success: function (response) {
-                lab();
-            }
-        });
-    }
 
-    // 分析的 function
-    function lab () {
         FB.api("/me/likes", function(details) {
             var response = $.parseJSON(JSON.stringify(details));
             $.each(response.data, function(i){
@@ -772,6 +771,8 @@
     }
 
     $( document ).ready(function() {
+
+        $("#lab").hide();
 
         loadProfile(); // 讀取 graph api 抓到的資料，如果沒抓過，就顯示 "抓" 的按鈕
 
