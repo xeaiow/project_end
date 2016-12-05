@@ -80,9 +80,11 @@
             });
         }
         // TODO: 到聊天頁面再判斷是否有相同關鍵字，否則踢走
+        var aa = 0;
         function loadMatchUserThree () {
 
             for (var i = 0; i < Object.keys(counts).length; i++) {
+
                 if (Object.values(counts)[i] >= 3) {
 
                     $.ajax({
@@ -99,7 +101,6 @@
                             var response = $.parseJSON(JSON.stringify(response));
 
                             if (response.status == true) {
-
                                 $("#friends-list").append(
                                     '<div class="column">' +
                                         '<div class="ui card fluid">' +
@@ -124,7 +125,7 @@
                                     url: '//localhost/selene_ci/meet/MatchKeywords/query',
                                     dataType: 'json',
                                     data: {
-                                        username : Object.keys(counts)[user_loop],
+                                        username : Object.keys(counts)[1],
                                     },
                                     error: function (xhr) {
                                         errorMsg();
@@ -138,15 +139,20 @@
                                         });
 
                                         user_init++;
+
                                     }
                                 });
+                                aa++;
                                 user_loop++;
+
+                                console.log(aa);
                             }
                         }
                     });
 
                 }
                 else{
+                    aa++;
                     console.log(user_loop);
                 }
 

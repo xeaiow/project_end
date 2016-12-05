@@ -82,7 +82,6 @@ class Meet_model extends CI_Model {
 
         $name         = $this->input->post('name'); // 名稱
         $id           = $this->input->post('id'); // 編號
-        $timezone     = $this->input->post('timezone'); // 時區
         $cover        = $this->input->post('cover'); // 封面
         $description  = $this->input->post('description'); // 描述
         $user         = $this->session->userdata('rndcode');
@@ -90,14 +89,14 @@ class Meet_model extends CI_Model {
         $data = array(
             'name'          =>  $name,
             'eventId'       =>  $id,
-            'timezone'      =>  $timezone,
             'cover'         =>  $cover,
             'description'   =>  $description,
             'fetchTime'     =>  date("Y-m-d"),
-            'username'      =>  $user
+            'username'      =>  $user,
         );
 
-        return $this->db->insert('meet_events', $data);
+        $this->db->insert('meet_events', $data);
+        return ( $this->db->affected_rows() > 0 ? true : false );
     }
 
     // 儲存我管理的粉專

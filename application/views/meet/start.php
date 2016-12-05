@@ -33,8 +33,8 @@
                 echo '<button class="ui button basic grey disabled">'.$profile['d_acc'].'</button>';
             }
         ?>
-        <button class="ui button basic grey" id="profile-edit-password"><i class="lock icon"></i> 修改密碼</button>
-        <button class="ui button basic grey" id="profile-hide"><i class="hide icon"></i> 隱藏姓名 <span>(<?php echo ($profile['nameIsHide'] == 1) ? "隱藏" : "顯示"; ?>)</span></button>
+        <button class="ui button nav-blue notinverted basic grey" id="profile-edit-password"><i class="lock icon"></i> 修改密碼</button>
+        <button class="ui button nav-blue notinverted basic grey" id="profile-hide"><i class="hide icon"></i> 隱藏姓名 <span>(<?php echo ($profile['nameIsHide'] == 1) ? "隱藏" : "顯示"; ?>)</span></button>
     </div>
 
     <div class="ui segment">
@@ -456,7 +456,7 @@
                         errorMsg();
                     },
                     success: function (response) {
-                        location.reload();
+                        
                     }
                 });
         });
@@ -537,7 +537,6 @@
                     data: {
                         name        : response.data[i].name,
                         id          : response.data[i].id,
-                        timezone    : ( response.data[i].timezone == undefined ? '' : response.data[i].timezone ),
                         cover       : ( response.data[i].cover == undefined ? '' : response.data[i].cover.source ),
                         description : ( response.data[i].description == undefined ? '' : cancelLn(response.data[i].description) ),
                     },
