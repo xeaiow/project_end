@@ -220,6 +220,24 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
+	// D3.js 取得關鍵字
+	public function d3getMatchKeywords () {
+
+		$result = $this->meet_model->get_match_keywords();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($result, JSON_UNESCAPED_UNICODE);
+	}
+
 	// 儲存使用者喜歡的粉專
 	public function setLikes () {
 
@@ -453,6 +471,25 @@ class Meet extends CI_Controller {
 
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 
+	}
+
+	// 儲存我利用關鍵字 >3 找到的好友
+	public function setFriends () {
+
+		$result = $this->meet_model->set_friends();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+	}
+
+	public function getIsFriends () {
+
+		$result = $this->meet_model->get_is_friend();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
 	// Graph api 擷取頁面

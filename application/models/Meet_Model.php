@@ -312,6 +312,40 @@ class Meet_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 
+    // 儲存我利用關鍵字 >3 找到的好友
+    public function set_friends () {
+
+        $sender   = $this->session->userdata('rndcode');
+        $receiver = $this->input->post('receiver');
+
+        $is_friend = $this->db->query('SELECT id FROM meet_friends WHERE sender = "'.$sender.'" AND receiver = "'.$receiver.'"');
+
+        if ($is_friend->num_rows() == 0) {
+            $data   = array(
+                'sender'        =>  $sender,
+                'receiver'      =>  $receiver,
+                'close'         =>  0,
+                'createTime'    =>  date("Y-m-d"),
+            );
+
+            $this->db->insert('meet_friends', $data);
+        }
+
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    // 聊天判斷是否為好友，不是就踢
+    public function get_is_friend () {
+
+        $user  = $this->session->userdata('rndcode');
+        $other = $this->input->post('other');
+
+        $result = $this->db->query('SELECT id FROM meet_friends WHERE ( ( sender = "'.$user.'" AND receiver = "'.$other.'" ) OR ( sender = "'.$other.'" AND receiver = "'.$user.'" ) )');
+
+        return ( $result->num_rows() == 1 ? true : false );
+
+    }
+
     // 抓到跟我相符的關鍵字存入，給聊天介面用的
     public function set_match_keywords () {
 
@@ -329,6 +363,7 @@ class Meet_model extends CI_Model {
         }
 
     }
+
 
     // ↑ 判斷是否以儲存關鍵字，沒儲存過才儲存
     public function ju_match_keywords ($user, $keywords) {

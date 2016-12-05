@@ -80,12 +80,30 @@
             });
         }
 
-        var aa = 0;
+
         function loadMatchUserThree () {
 
             for (var i = 0; i < Object.keys(counts).length; i++) {
 
                 if (Object.values(counts)[i] >= 3) {
+
+
+                    // 增加到好友列表
+                    $.ajax({
+                        type: 'post',
+                        url: '//localhost/selene_ci/meet/friends/save',
+                        dataType: 'json',
+                        data: {
+                            receiver : Object.keys(counts)[i],
+                        },
+                        error: function (xhr) {
+                            errorMsg();
+                        },
+                        success: function (response) {
+                            
+                        }
+                    });
+
 
                     $.ajax({
                         type: 'post',
@@ -123,6 +141,8 @@
                         }
                     });
 
+
+                    // 取得對方與我相同關鍵字
                     $.ajax({
                         type: 'post',
                         url: '//localhost/selene_ci/meet/MatchKeywords/query',
@@ -142,21 +162,10 @@
                             });
 
                             user_init++;
-
                         }
                     });
-                    aa++;
-                    user_loop++;
-
-                    console.log(aa);
                 }
-                else{
-                    aa++;
-                    console.log(user_loop);
-                }
-
             }
-
         }
 
 </script>
