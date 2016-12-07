@@ -11,8 +11,8 @@
 
                 <div class="ui bottom attached tab segment active" data-tab="first" id="profile"></div>
                 <div class="ui bottom attached tab segment" data-tab="second">
-                    <div class="ui segment basic">
-                        <div class="ui divided items scrollbar-black" style="max-height:475px;overflow-y:auto;" id="userKeywords"></div>
+                    <div class="ui segment basic" style="min-height:503px;">
+                        <div class="ui divided items scrollbar-black" style="max-height:490px;overflow-y:auto;" id="userKeywords"></div>
                     </div>
                 </div>
 
@@ -198,10 +198,10 @@
 
                         // 將共同關鍵字底色設為藍
                         if (arrSearch(matchKeywordArr, response.result[i].keywords)) {
-                            $("#userKeywords").append('<a class="ui lightyellow-keywords basic label">' + response.result[i].keywords + '</a>');
+                            $("#userKeywords").append('<a class="ui lightyellow-keywords basic label explan" coll="' + response.result[i].collections + '" field="' + response.result[i].field + '" itemId="' + response.result[i].itemid + '">' + response.result[i].keywords + '</a>');
                         }
                         else{
-                            $("#userKeywords").append('<a class="ui basic label">' + response.result[i].keywords + '</a>');
+                            $("#userKeywords").append('<a class="ui basic label explan" coll="' + response.result[i].collections + '" field="' + response.result[i].field + '" itemId="' + response.result[i].itemid + '">' + response.result[i].keywords + '</a>');
                         }
                         userKeywords[i] = response.result[i].keywords;
                     });
