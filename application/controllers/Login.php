@@ -106,7 +106,7 @@ class Login extends CI_Controller {
 		// 如果已經登入，導回 a (不需要顯示註冊頁面)
 		$is_login = $this->system_model->is_login();
 		if ( $is_login ) {
-			redirect(base_url('a'));
+			redirect(base_url('login'));
 		}
 		else{
 			$data['page_title'] = "註冊";

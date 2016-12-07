@@ -308,7 +308,7 @@ class Meet_model extends CI_Model {
 
         $user  = $this->session->userdata('rndcode');
         $keywords = $this->input->post('keywords');
-        $query = $this->db->query('SELECT username, keywords FROM meet_keywords WHERE keywords REGEXP ("' . implode("|",$keywords) . '") AND username != "'.$user.'"');
+        $query = $this->db->query('SELECT username, keywords, collections, field, itemid FROM meet_keywords WHERE keywords REGEXP ("' . implode("|",$keywords) . '") AND username != "'.$user.'"');
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 
@@ -349,13 +349,16 @@ class Meet_model extends CI_Model {
     // 抓到跟我相符的關鍵字存入，給聊天介面用的
     public function set_match_keywords () {
 
-        $user  = $this->input->post('username');
-        $keywords = $this->input->post('keywords');
+        $user       = $this->input->post('username');
+        $keywords   = $this->input->post('keywords');
+        $coll       = $this->input->post('coll');
+        $field      = $this->input->post('field');
+        $itemid     = $this->input->post('itemid');
 
-        $result = $this->ju_match_keywords($user, $keywords); // call ju_match_keywords 判斷是否已有資料
+        $result     = $this->ju_match_keywords($user, $keywords); // call ju_match_keywords 判斷是否已有資料
 
         if ($result) {
-            $query = $this->db->query('INSERT INTO meet_matchkeywords (username, keywords) VALUES ("'.$user.'", "'.$keywords.'")');
+            $query = $this->db->query('INSERT INTO meet_matchkeywords (username, keywords, collections, field, itemid) VALUES ("'.$user.'", "'.$keywords.'", "'.$coll.'", "'.$field.'", "'.$itemid.'")');
             return ($this->db->affected_rows() > 0) ? true : false;
         }
         else{
@@ -376,7 +379,7 @@ class Meet_model extends CI_Model {
     public function get_match_keywords () {
 
         $user = $this->input->post('username');
-        $query = $this->db->query('SELECT keywords FROM meet_matchkeywords WHERE username = "'.$user.'"');
+        $query = $this->db->query('SELECT keywords AS name, collections, field, itemid FROM meet_matchkeywords WHERE username = "'.$user.'"');
         return ($query->num_rows() > 0) ? $query->result_array() : true;
     }
 
@@ -385,6 +388,16 @@ class Meet_model extends CI_Model {
 
         $matchUsername = $this->input->post('matchUsername');
         $query = $this->db->query('SELECT * FROM meet_profile WHERE rndcode = "'.$matchUsername.'"');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
+    // 取得關鍵字說明
+    public function get_keywords_explan () {
+
+        $coll = $this->input->post('coll');
+        $field = $this->input->post('field');
+        $itemid = $this->input->post('itemid');
+        $query = $this->db->query('SELECT * FROM meet_'.$coll.' WHERE '.$field.' = "'.$itemid.'"');
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 

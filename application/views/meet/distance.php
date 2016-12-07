@@ -62,6 +62,9 @@
                                 data: {
                                     username : response.result[i].username,
                                     keywords : response.result[i].keywords,
+                                    coll     : response.result[i].collections,
+                                    field    : response.result[i].field,
+                                    itemid   : response.result[i].itemid,
                                 },
                                 error: function (xhr) {
                                     errorMsg();
@@ -100,7 +103,7 @@
                             errorMsg();
                         },
                         success: function (response) {
-                            
+
                         }
                     });
 
@@ -127,13 +130,10 @@
                                             '</a>' +
                                             '<div class="content">' +
                                                 '<a class="header center aligned">' +
-                                                    response.result[0].name +
+                                                    response.result[0].name + ( response.result[0].gender == "男性" ? ' <i class="man icon"></i>' : ' <i class="woman icon"></i>' ) +
                                                 '</a>' +
-                                                '<div class="meta center aligned">' + response.result[0].gender + '</div>' +
                                             '</div>' +
-                                            '<div class="extra content scrollbar-black keywords" style="max-height:50px;overflow-y:auto;">' +
-
-                                            '</div>' +
+                                            '<div class="extra content scrollbar-black keywords" style="max-height:100px;min-height:50px;overflow-y:auto;"></div>' +
                                         '</div>' +
                                     '</div>'
                                 );
@@ -158,7 +158,7 @@
                             var response = $.parseJSON(JSON.stringify(response));
 
                             $.each(response.result, function(i) {
-                                $('.keywords:eq('+user_init+')').append('<a class="ui basic label">' + response.result[i].keywords + '</a>');
+                                $('.keywords:eq(' + user_init + ')').append('<a class="ui basic label">' + response.result[i].name + '</a>');
                             });
 
                             user_init++;

@@ -19,7 +19,7 @@
     <script src="<?=base_url()?>assets/fastclick.js"></script>
 	<script src="https://s3.amazonaws.com/static.selene.tw/assets/moment.js"></script>
 	<script src="https://s3.amazonaws.com/static.selene.tw/assets/messenger.min.js"></script>
-	<script src="https://s3.amazonaws.com/static.selene.tw/assets/messenger-theme-flat.js"></script>
+    <script src="<?=base_url()?>assets/script.js"></script>
 
 </head>
 <body>

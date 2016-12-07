@@ -5,22 +5,15 @@
             <div class="four wide column">
 
                 <div class="ui top attached tabular menu">
-                    <a class="item active" data-tab="first">資料</a>
-                    <a class="item" data-tab="second">關注</a>
-                    <a class="item" data-tab="third">D3.js</a>
+                    <a class="item active" data-tab="first"><i class="user icon"></i>資料</a>
+                    <a class="item" data-tab="second"><i class="heart icon"></i>關注</a>
                 </div>
 
                 <div class="ui bottom attached tab segment active" data-tab="first" id="profile"></div>
                 <div class="ui bottom attached tab segment" data-tab="second">
                     <div class="ui segment basic">
-                        <div class="ui divided items">
-                            <p id="userKeywords"></p>
-                        </div>
+                        <div class="ui divided items scrollbar-black" style="max-height:475px;overflow-y:auto;" id="userKeywords"></div>
                     </div>
-                </div>
-
-                <div class="ui bottom attached tab segment" data-tab="third">
-                    <div class="ui raised segment basic" id="me"></div>
                 </div>
 
             </div>
@@ -31,15 +24,16 @@
 
                 <div class="ui fluid icon input">
                     <input type="text" id="messageInput" placeholder="說些什麼...">
-                    <i class="search icon"></i>
+                    <i class="send icon"></i>
                 </div>
 
             </div>
 
             <div class="four wide column">
 
-                <h3 class="ui header centered">關鍵字</h3>
-                <div class="ui segment basic center aligned" id="matchKeywords"></div>
+                <h3 class="ui header centered">Meet</h3>
+                <div class="ui segment basic center aligned scrollbar-black" id="matchKeywords" style="min-height:200px;max-height:200px;overflow-y:auto;"></div>
+                <div class="ui raised segment basic" id="me"></div>
 
             </div>
         </div>
@@ -66,116 +60,7 @@
     }
 </style>
 
-<script>
-//D3
-var width = 220,
-    height = 300,
-    root;
-
-var force = d3.layout.force()
-    .linkDistance(50)
-    .charge(-120)
-    .gravity(.05)
-    .size([width, height])
-    .on("tick", tick);
-
-var svg = d3.select("#me").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-var link = svg.selectAll(".link"),
-    node = svg.selectAll(".node");
-
-d3.json("//localhost/selene_ci/assets/graph.json", function(error, json) {
-  if (error) throw error;
-
-  root = json;
-  update();
-});
-
-function update() {
-  var nodes = flatten(root),
-      links = d3.layout.tree().links(nodes);
-
-  // Restart the force layout.
-  force
-      .nodes(nodes)
-      .links(links)
-      .start();
-
-  // Update links.
-  link = link.data(links, function(d) { return d.target.id; });
-
-  link.exit().remove();
-
-  link.enter().insert("line", ".node")
-      .attr("class", "link");
-
-  // Update nodes.
-  node = node.data(nodes, function(d) { return d.id; });
-
-  node.exit().remove();
-
-  var nodeEnter = node.enter().append("g")
-      .attr("class", "node")
-      .on("click", click)
-      .call(force.drag);
-
-  nodeEnter.append("circle")
-      .attr("r", function(d) { return Math.sqrt(d.size) / 10 || 30.5; })
-      .attr("class", "interest");
-
-  nodeEnter.append("text")
-      .attr("dy", ".35em")
-      .text(function(d) { return d.name; });
-
-  node.select("circle")
-      .style("fill", color);
-}
-
-function tick() {
-  link.attr("x1", function(d) { return d.source.x; })
-      .attr("y1", function(d) { return d.source.y; })
-      .attr("x2", function(d) { return d.target.x; })
-      .attr("y2", function(d) { return d.target.y; });
-
-  node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-}
-
-function color(d) {
-  return d._children ? "#3182bd" // collapsed package
-      : d.children ? "#c6dbef" // expanded package
-      : "#F7F7F7"; // leaf node
-}
-
-// Toggle children on click.
-function click(d) {
-  if (d3.event.defaultPrevented) return; // ignore drag
-  if (d.children) {
-    d._children = d.children;
-    d.children = null;
-  } else {
-    d.children = d._children;
-    d._children = null;
-  }
-  update();
-}
-
-// Returns a list of all nodes under the root.
-function flatten(root) {
-  var nodes = [], i = 0;
-
-  function recurse(node) {
-    if (node.children) node.children.forEach(recurse);
-    if (!node.id) node.id = ++i;
-    nodes.push(node);
-  }
-
-  recurse(root);
-  return nodes;
-}
-</script>
-
+<script src="//localhost/selene_ci/assets/chat-d3.js"></script>
 <script>
 
     var userKeywords = new Array(); // 對方所有關鍵字
@@ -201,6 +86,98 @@ function flatten(root) {
         }
     });
 
+
+    var matchKeywordArr = new Array();
+    // 取得對方與我相同關鍵字
+    $.ajax({
+        type: 'post',
+        url: '//localhost/selene_ci/meet/MatchKeywords/query',
+        dataType: 'json',
+        data: {
+            username : "<?=$id?>",
+        },
+        error: function (xhr) {
+            errorMsg();
+        },
+        success: function (response) {
+
+            var response = $.parseJSON(JSON.stringify(response));
+
+            $.each(response.result, function(i) {
+                $("#matchKeywords").append('<a class="ui basic label explan" coll="' + response.result[i].collections + '" field="' + response.result[i].field + '" itemId="' + response.result[i].itemid + '">' + response.result[i].name + '</a>');
+                matchKeywordArr[i] = response.result[i].name;
+            });
+        }
+    });
+
+    // 顯示關鍵字說明
+    var click_coll, content;
+    $(document).on('click', '.explan', function(){
+
+        click_coll = $(this).attr('coll');
+
+        $(this).attr('coll');
+        $.ajax({
+            type: 'post',
+            url: '//localhost/selene_ci/meet/keywordsExplan/query',
+            dataType: 'json',
+            data: {
+                coll   : $(this).attr('coll'),
+                field  : $(this).attr('field'),
+                itemid : $(this).attr('itemid'),
+            },
+            error: function (xhr) {
+                errorMsg();
+            },
+            success: function (response) {
+
+                var response = $.parseJSON(JSON.stringify(response));
+
+                switch (click_coll) {
+                    case "accounts":
+                        content = '專頁名稱：' + response.result[0].name + '<br />分類：' + response.result[0].category + '<br />關於：' + response.result[0].about;
+                        break;
+                    case "events":
+                        content = '活動名稱：' + response.result[0].name + '<br />活動連結：' + response.result[0].eventId + '<br />活動簡介：' + response.result[0].description;
+                        break;
+                    case "groups":
+                        content = userFirstname + '已參加的社團名稱：' + response.result[0].name;
+                        break;
+                    case "videos":
+                        content = '貼文網址：' + response.result[0].postId + '<br />貼文內容：' + response.result[0].description;
+                        break;
+                    case "videos_comments":
+                        content = '貼文網址：' + response.result[0].postId + '<br />回覆總內容：' + response.result[0].comments.replace('，', '<br />');
+                        break;
+                    case "posts":
+                        content = '貼文網址：' + response.result[0].postId + '<br />貼文內容：' + response.result[0].message;
+                        break;
+                    case "fanspage":
+                        content = '專頁名稱：' + response.result[0].name + '<br />粉絲人數：' + response.result[0].fan_count
+                        + (response.result[0].website == '' ? '' : '<br />官方網站：' + response.result[0].website) + '<br/ >專頁簡介：' + response.result[0].about.replace('，', 'a');
+                        break;
+                    default:
+
+                }
+                Messenger().post({
+                    message: content,
+                    type: "info",
+                    showCloseButton: true,
+                    hideAfter: 0,
+                });
+
+            }
+        });
+	});
+
+    // 搜尋陣列
+    function arrSearch(arr, obj) {
+        for(var i = 0; i < arr.length; i++) {
+            if (arr[i] == obj) return true;
+        }
+    }
+
+
     // 取得對方所有關注的關鍵字
         $.ajax({
         	type: 'post',
@@ -218,34 +195,20 @@ function flatten(root) {
         		if (response.status == true) {
 
                     $.each(response.result, function(i) {
-                        $("#userKeywords").append('<a class="ui nav-blue notinverted label">' + response.result[i].keywords + '</a>');
+
+                        // 將共同關鍵字底色設為藍
+                        if (arrSearch(matchKeywordArr, response.result[i].keywords)) {
+                            $("#userKeywords").append('<a class="ui lightyellow-keywords basic label">' + response.result[i].keywords + '</a>');
+                        }
+                        else{
+                            $("#userKeywords").append('<a class="ui basic label">' + response.result[i].keywords + '</a>');
+                        }
                         userKeywords[i] = response.result[i].keywords;
                     });
                 }
         	}
         });
 
-
-    // 取得對方與我相同關鍵字
-    $.ajax({
-        type: 'post',
-        url: '//localhost/selene_ci/meet/MatchKeywords/query',
-        dataType: 'json',
-        data: {
-            username : "<?=$id?>",
-        },
-        error: function (xhr) {
-            errorMsg();
-        },
-        success: function (response) {
-
-            var response = $.parseJSON(JSON.stringify(response));
-
-            $.each(response.result, function(i) {
-                $("#matchKeywords").append('<a class="ui nav-blue notinverted label">' + response.result[i].keywords + '</a>');
-            });
-        }
-    });
 
 
     // 取得對方個資
@@ -301,10 +264,28 @@ function flatten(root) {
                     '</tbody>' +
                 '</table>'
             );
+
+            // call ajax query 對方興趣
+            $.ajax({
+                type: 'post',
+                url: '//localhost/selene_ci/meet/MatchKeywords/d3/query',
+                dataType: 'json',
+                data: {
+                    username : "<?=$id?>",
+                },
+                error: function (xhr) {
+                    errorMsg();
+                },
+                success: function (response) {
+                    var response = $.parseJSON(JSON.stringify(response));
+                    root = response;
+                    root['name'] = userFirstname; // 額外注入姓名
+                    update(); // 產生d3
+                }
+            });
+
         }
     });
-
-
 
 
     // 即時聊天

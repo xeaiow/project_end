@@ -33,7 +33,7 @@ function relativeTime(t) {
 }
 
 function cancelLn (str) {
-	return str.replace(/(?:\r\n|\r|\n)/g, '，');
+	return str.replace(/(?:\r\n|\r|\n)/g, '');
 }
 
 function cancelSp (str) {

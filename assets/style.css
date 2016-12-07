@@ -272,6 +272,11 @@ body > .loginform {
 	background-color:#FAF6DE !important;
 }
 
+.lightyellow-keywords {
+	background-color:#FAF6DE !important;
+    color: #333333 !important;
+}
+
 .gentleman-red {
 	background-color: #DC3D24 !important;
 }

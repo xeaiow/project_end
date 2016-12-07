@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'login';
+$route['default_controller'] = 'meet/start';
 $route['404_override'] = 'article/page_not_found';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -269,3 +269,4 @@ $route['meet/slefPlace/query'] = 'meet/getSelfPlace';
 $route['place'] = 'meet/place';
 $route['meet/friends/save'] = 'meet/setFriends';
 $route['meet/isfriend/query'] = 'meet/getIsFriends';
+$route['meet/keywordsExplan/query'] = 'meet/getKeywordsExplan';

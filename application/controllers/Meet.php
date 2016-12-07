@@ -20,6 +20,11 @@ class Meet extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
+		$is_login = $this->system_model->is_login();
+		if ( !$is_login ) {
+			redirect(base_url().'login/');
+		}
+
 	}
 
 	// 404 not found
@@ -220,10 +225,10 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
-	// D3.js 取得關鍵字
-	public function d3getMatchKeywords () {
+	// 取得關鍵字說明
+	public function getKeywordsExplan () {
 
-		$result = $this->meet_model->get_match_keywords();
+		$result = $this->meet_model->get_keywords_explan();
 
 		if ($result) {
 
@@ -235,7 +240,26 @@ class Meet extends CI_Controller {
 			$response['status'] = false;
 		}
 
-		echo json_encode($result, JSON_UNESCAPED_UNICODE);
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+
+	}
+
+	// D3.js 取得關鍵字
+	public function d3getMatchKeywords () {
+
+		$result = $this->meet_model->get_match_keywords();
+
+		if ($result) {
+
+			$response['children'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
 	// 儲存使用者喜歡的粉專
