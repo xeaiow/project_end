@@ -5,16 +5,20 @@
             <div class="four wide column">
 
                 <div class="ui top attached tabular menu">
-                    <a class="item active" data-tab="first"><i class="user icon"></i>資料</a>
-                    <a class="item" data-tab="second"><i class="heart icon"></i>關注</a>
+                    <a class="item active" data-tab="first"><i class="user icon"></i></a>
+                    <a class="item" data-tab="second"><i class="at icon"></i>關注</a>
+                    <a class="item" data-tab="third"><i class="heart icon"></i>喜愛</a>
                 </div>
 
                 <div class="ui bottom attached tab segment active" data-tab="first" id="profile"></div>
+
                 <div class="ui bottom attached tab segment" data-tab="second">
                     <div class="ui segment basic" style="min-height:503px;">
                         <div class="ui divided items scrollbar-black" style="max-height:490px;overflow-y:auto;" id="userKeywords"></div>
                     </div>
                 </div>
+
+                <div class="ui bottom attached tab segment scrollbar-black" data-tab="third" id="love" style="max-height:490px;overflow-y:auto;"></div>
 
             </div>
 
@@ -284,6 +288,25 @@
                 }
             });
 
+        }
+    });
+
+    // 取得對方喜愛的粉專
+    $.ajax({
+        type: 'post',
+        url: '//localhost/selene_ci/meet/userFansPageInfo/query',
+        dataType: 'json',
+        data: {
+            username : "<?=$id?>",
+        },
+        error: function (xhr) {
+            errorMsg();
+        },
+        success: function (response) {
+            var response = $.parseJSON(JSON.stringify(response));
+            $.each(response.result, function(i){
+                $("#love").append('<a class="ui basic label" target="_blank" href="//fb.com/' + response.result[i].pageId + '">' + response.result[i].name + '</a><br />');
+            });
         }
     });
 

@@ -113,6 +113,24 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
+	// 取得該使用者的粉專所有資訊
+	public function getUserFansPageInfo() {
+
+        $result = $this->meet_model->get_userfanspage_info();
+
+		if ($result) {
+
+			$response['result'] = $result;
+			$response['status'] = true;
+
+		}
+		else {
+			$response['status'] = false;
+		}
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+
 	// // 取得該使用者關鍵字
 	public function getKeyWords () {
 

@@ -57,6 +57,14 @@ class Meet_model extends CI_Model {
         return $query->get('meet_fanspage');
     }
 
+    // 取得該使用者的粉專所有資訊
+    public function get_userfanspage_info () {
+
+        $username = $this->input->post('username'); // 聊天對象的 id
+        $query = $this->db->where('username', $username)->get('meet_fanspage');
+        return ($query->num_rows() > 0) ? $query->result_array() : false;
+    }
+
     // 儲存使用者喜歡的粉專
     public function set_likes () {
 
@@ -383,7 +391,7 @@ class Meet_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array() : true;
     }
 
-    // 取得前三多關鍵字使用者
+    // 取得 >=3 關鍵字使用者
     public function get_match_keywords_three () {
 
         $matchUsername = $this->input->post('matchUsername');

@@ -70,15 +70,17 @@
                                     errorMsg();
                                 },
                                 success: function (response) {
+
+                                    // 從 meet_keywords 抓到資料後，存入 meet_matchkeywords
+
                                 }
                             });
                         });
-
-                        // 計算使用者重複數
-                        matchUser.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-
-                        loadMatchUserThree();
                     }
+                    // 計算使用者重複數
+                    matchUser.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+
+                    loadMatchUserThree();
                 }
             });
         }
@@ -141,7 +143,6 @@
                         }
                     });
 
-
                     // 取得對方與我相同關鍵字
                     $.ajax({
                         type: 'post',
@@ -159,7 +160,6 @@
 
                             $.each(response.result, function(i) {
                                 $('.keywords:eq(' + user_init + ')').append('<a class="ui basic label">' + response.result[i].name + '</a>');
-
                             });
 
                             user_init++;
