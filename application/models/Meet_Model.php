@@ -342,7 +342,7 @@ class Meet_model extends CI_Model {
 
         $result = $this->db->query('SELECT id FROM meet_friends WHERE ( ( sender = "'.$user.'" AND receiver = "'.$other.'" ) OR ( sender = "'.$other.'" AND receiver = "'.$user.'" ) )');
 
-        return ( $result->num_rows() == 1 ? true : false );
+        return ( $result->num_rows() > 0 ? true : false );
 
     }
 

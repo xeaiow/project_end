@@ -313,6 +313,30 @@
 </div>
 </div>
 
+
+<!-- 導覽modal -->
+<div class="ui basic modal" id="firstmodal">
+    <i class="close icon"></i>
+    <div class="header">
+        太棒了，開始尋覓同好吧！
+    </div>
+    <div class="image content">
+        <div class="image">
+            <i class="lab icon"></i>
+        </div>
+        <div class="description">
+            <p>只需按下「分析鍵」即可開始！</p>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="two fluid ui inverted buttons">
+            <div class="ui ok nav-blue notinverted inverted button">
+                知道了
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     // modal
@@ -391,6 +415,7 @@
                     $("#lab").show();
                     $("#picture").attr("src", '//i.imgur.com/p4vd7Tm.jpg');
                     $(".change-pic").addClass('disabled');
+                    $("#firstmodal").modal('show');
                 }
             }
         });
@@ -491,8 +516,8 @@
         posts();
         place();
         success();
-        
-        setTimeout(function(){ window.location.href = '//localhost:3000/?name=' + "<?=$rndcode?>"; }, 2500);
+
+        // setTimeout(function(){ window.location.href = '//localhost:3000/?name=' + "rndcode"; }, 2500);
     }
 
 

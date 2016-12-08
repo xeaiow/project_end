@@ -159,6 +159,7 @@
 
                             $.each(response.result, function(i) {
                                 $('.keywords:eq(' + user_init + ')').append('<a class="ui basic label">' + response.result[i].name + '</a>');
+
                             });
 
                             user_init++;
