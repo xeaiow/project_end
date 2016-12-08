@@ -456,7 +456,7 @@
                         errorMsg();
                     },
                     success: function (response) {
-                        
+
                     }
                 });
         });
@@ -491,8 +491,8 @@
         posts();
         place();
         success();
-        setTimeout(function(){ location.reload(); }, 2500);
-
+        
+        setTimeout(function(){ window.location.href = '//localhost:3000/?name=' + "<?=$rndcode?>"; }, 2500);
     }
 
 
