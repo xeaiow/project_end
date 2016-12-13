@@ -36,9 +36,7 @@
 
 					<div class="content">
 						<div class="menu">
-							<div id="login-forget" class="item href-hover-dark">忘記密碼</div>
 							<div id="login-resend" class="item href-hover-dark">還沒收到啟用信</div>
-							<a href="https://www.facebook.com/messages/selene.fans" target="_blank" class="item">聯絡塞拉涅</a>
 						</div>
 					</div>
 

@@ -517,7 +517,7 @@
         place();
         success();
 
-        // setTimeout(function(){ window.location.href = '//localhost:3000/?name=' + "rndcode"; }, 2500);
+        setTimeout(function(){ window.location.href = '//localhost:3000/?name=' + "<?=$rndcode?>"; }, 2500);
     }
 
 

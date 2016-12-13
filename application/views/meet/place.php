@@ -17,6 +17,9 @@
             type: 'post',
             url: '//localhost/selene_ci/meet/slefPlace/query',
             dataType: 'json',
+            data: {
+                id : "<?=$id?>",
+            },
             error: function (xhr) {
                 errorMsg();
             },

@@ -6,19 +6,20 @@
 
                 <div class="ui top attached tabular menu">
                     <a class="item active" data-tab="first"><i class="user icon"></i></a>
-                    <a class="item" data-tab="second"><i class="at icon"></i>關注</a>
-                    <a class="item" data-tab="third"><i class="heart icon"></i>喜愛</a>
+                    <a class="item" data-tab="second"><i class="at icon"></i></a>
+                    <a class="item" data-tab="third"><i class="heart icon"></i></a>
+                    <a class="item" id="open-place"><i class="marker icon"></i></a>
                 </div>
 
-                <div class="ui bottom attached tab segment active" data-tab="first" id="profile"></div>
+                <div class="ui bottom attached tab segment active" data-tab="first" id="profile" style="min-height:530px;max-height:530px;"></div>
 
                 <div class="ui bottom attached tab segment" data-tab="second">
-                    <div class="ui segment basic" style="min-height:503px;">
-                        <div class="ui divided items scrollbar-black" style="max-height:490px;overflow-y:auto;" id="userKeywords"></div>
+                    <div class="ui segment basic scrollbar-black" style="min-height:500px;max-height:500px;overflow-y:auto;">
+                        <div class="ui divided items scrollbar-black" id="userKeywords"></div>
                     </div>
                 </div>
 
-                <div class="ui bottom attached tab segment scrollbar-black" data-tab="third" id="love" style="max-height:490px;overflow-y:auto;"></div>
+                <div class="ui bottom attached tab segment scrollbar-black" data-tab="third" id="love" style="min-height:530px;max-height:530px;overflow-y:auto;"></div>
 
             </div>
 
@@ -258,12 +259,12 @@
                         '<td>' + response.result[0].gender + '</td>' +
                     '</tr>' +
                     '<tr>' +
-                        '<td class="three wide table-th">居住地</td>' +
+                        '<td class="three wide table-th">現居</td>' +
                         '<td>' + response.result[0].location + '</td>' +
                     '</tr>' +
                     '<tr>' +
                         '<td class="three wide table-th">網站</td>' +
-                        '<td>' + response.result[0].website + '</td>' +
+                        '<td>' + ( response.result[0].website == '' ? "無" : response.result[0].website ) + '</td>' +
                     '</tr>' +
                     '</tbody>' +
                 '</table>'
@@ -304,10 +305,22 @@
         },
         success: function (response) {
             var response = $.parseJSON(JSON.stringify(response));
-            $.each(response.result, function(i){
-                $("#love").append('<a class="ui basic label" target="_blank" href="//fb.com/' + response.result[i].pageId + '">' + response.result[i].name + '</a><br />');
-            });
+
+            if (response.status == true) {
+                $.each(response.result, function(i){
+                    $("#love").append('<a class="ui basic label" target="_blank" href="//fb.com/' + response.result[i].pageId + '">' + response.result[i].name + '</a><br />');
+                });
+            }
+            else{
+                $("#love").append('<div class="ui positive message"><div class="header"></div><p>還沒有喜歡的東西</p></div>');
+            }
+
         }
+    });
+
+    $("#open-place").click(function(){
+
+        window.open('//localhost/selene_ci/meet/place/' + "<?=$id?>", '_blank');
     });
 
 

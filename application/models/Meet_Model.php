@@ -453,8 +453,8 @@ class Meet_model extends CI_Model {
     // 取得我的打卡
     public function get_selfPlace () {
 
-        $user  = $this->session->userdata('rndcode');
-        $query = $this->db->where('username', $user)->get('meet_place');
+        $id    = $this->input->post('id');
+        $query = $this->db->where('username', $id)->get('meet_place');
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 

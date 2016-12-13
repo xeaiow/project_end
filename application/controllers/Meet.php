@@ -542,6 +542,7 @@ class Meet extends CI_Controller {
         $this->load->view('templates/navbar');
         $this->load->view('account/menu');
 		$data['profile'] = $this->account_model->get_member_profile();
+		$data['rndcode'] = $this->account_model->get_member_profile()['rndcode'];
         $this->load->view('meet/start', $data);
         $this->load->view('templates/footer');
     }
@@ -578,12 +579,13 @@ class Meet extends CI_Controller {
         $this->load->view('templates/footer');
 	}
 
-	public function place () {
+	public function place ($id = NULL) {
 
+		$data['id'] = $id;
 		$header['page_title'] = "環遊 - Meet覓";
 		$this->load->view('templates/header', $header);
         $this->load->view('templates/place_navbar');
-        $this->load->view('meet/place');
+        $this->load->view('meet/place', $data);
         $this->load->view('templates/footer');
 	}
 
