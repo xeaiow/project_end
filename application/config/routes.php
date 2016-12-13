@@ -78,89 +78,89 @@ $route['start']           = 'meet/start';
 $route['chat']            = 'meet/chat';
 $route['chat/(:num)']     = 'meet/chat/$1';
 $route['distance']        = 'meet/distance';
-$route['account/profile'] = 'account/profile';
-$route['account/friends'] = 'account/friends';
-$route['account/article'] = 'account/article';
-$route['account/archive'] = 'account/archive';
-$route['account/items']   = 'account/items';
-$route['account/warning'] = 'account/warning';
+// $route['account/profile'] = 'account/profile';
+// $route['account/friends'] = 'account/friends';
+// $route['account/article'] = 'account/article';
+// $route['account/archive'] = 'account/archive';
+// $route['account/items']   = 'account/items';
+// $route['account/warning'] = 'account/warning';
 
 // 好友資料 及 聊天
-$route['account/friends/(:num)'] = 'account/friends_profile/$1';
-$route['account/friends/(:num)/talk'] = 'account/friends_talk/$1';
-$route['account/friends/(:num)/remove'] = 'account/remove_friend/$1';
-$route['account/friends/talk/get'] = 'account/talk_sms';
-$route['account/friends/get/friend/info'] = 'account/friends_info'; // TODO: 改網址
-$route['account/friends/talk/send'] = 'account/friends_send_talk';
-
-// 我的好友 query (返回JSON)
-$route['account/query/friends'] = 'account/friends_json';
-$route['account/query/article'] = 'account/article_json';
-$route['account/query/archive'] = 'account/archive_json';
-$route['account/query/items'] = 'account/items_json';
-$route['account/query/warning'] = 'account/warning_json';
+// $route['account/friends/(:num)'] = 'account/friends_profile/$1';
+// $route['account/friends/(:num)/talk'] = 'account/friends_talk/$1';
+// $route['account/friends/(:num)/remove'] = 'account/remove_friend/$1';
+// $route['account/friends/talk/get'] = 'account/talk_sms';
+// $route['account/friends/get/friend/info'] = 'account/friends_info';
+// $route['account/friends/talk/send'] = 'account/friends_send_talk';
+//
+// // 我的好友 query (返回JSON)
+// $route['account/query/friends'] = 'account/friends_json';
+// $route['account/query/article'] = 'account/article_json';
+// $route['account/query/archive'] = 'account/archive_json';
+// $route['account/query/items'] = 'account/items_json';
+// $route['account/query/warning'] = 'account/warning_json';
 $route['account/query/notice'] = 'account/notice';
 $route['account/query/notice/check/(:num)'] = 'account/notice_check/$1';
 
 //Activity 攻城戰資訊
-$route['activity/query/siege_info'] = 'activity/siege_record_json';
-$route['activity/siege/attack'] = 'activity/siege_attack_json';
+// $route['activity/query/siege_info'] = 'activity/siege_record_json';
+// $route['activity/siege/attack'] = 'activity/siege_attack_json';
 // Account 寫入資料區
-$route['account/profile/save'] = 'account/profile_save/';
+// $route['account/profile/save'] = 'account/profile_save/';
 $route['account/profile/save/upload'] = 'account/profile_upload';
 $route['account/profile/save/hidename'] = 'account/hide_name_save';
 $route['account/profile/short'] = 'account/short';
 $route['account/profile/edit/password'] = 'account/edit_password';
 
 // Article 寫入資料區
-$route['article/newpost/save'] = 'article/newpost_save';
-$route['article/edit/save'] = 'article/article_edit_save';
-$route['article/remove/save'] = 'article/article_edit_save';
+// $route['article/newpost/save'] = 'article/newpost_save';
+// $route['article/edit/save'] = 'article/article_edit_save';
+// $route['article/remove/save'] = 'article/article_edit_save';
 
 // 取得選單列表 json (由 article/type_json Controller 產生，再自己存到靜態檔案裡)
-$route['assets/statics/article/type'] = 'article/type_json_load_view';
+// $route['assets/statics/article/type'] = 'article/type_json_load_view';
 
 // 今日涅友
-$route['friend']        = 'friend/selene_friend';
-$route['friend/invite'] = 'friend/invite_friend';
-$route['friend/invite/report'] = 'friend/invite_friend_report';
+// $route['friend']        = 'friend/selene_friend';
+// $route['friend/invite'] = 'friend/invite_friend';
+// $route['friend/invite/report'] = 'friend/invite_friend_report';
 
 // 涅友私訊
-$route['account/friends/(:num)/talk'] = 'account/friends_talk/$1';
+// $route['account/friends/(:num)/talk'] = 'account/friends_talk/$1';
 
 // 文章列表及 query 等
-$route['a'] = 'article';
-$route['a/query'] = 'article/query';
-$route['a/query/hot'] = 'article/hot_json';
-$route['a/search'] = 'article/search';
-$route['a/(:any)'] = 'article/index/$1';
-$route['a/(:any)/newpost'] = 'article/newpost/$1';
-$route['a/(:any)/query'] = 'article/query/$1';
-$route['a/(:any)/query/hot'] = 'article/hot_json/$1';
-$route['a/remove/article'] = 'article/remove_article';
-$route['a/remove/reply'] = 'article/remove_reply';
+// $route['a'] = 'article';
+// $route['a/query'] = 'article/query';
+// $route['a/query/hot'] = 'article/hot_json';
+// $route['a/search'] = 'article/search';
+// $route['a/(:any)'] = 'article/index/$1';
+// $route['a/(:any)/newpost'] = 'article/newpost/$1';
+// $route['a/(:any)/query'] = 'article/query/$1';
+// $route['a/(:any)/query/hot'] = 'article/hot_json/$1';
+// $route['a/remove/article'] = 'article/remove_article';
+// $route['a/remove/reply'] = 'article/remove_reply';
 
 // 文章點讚 & 收藏
-$route['a/query/likes'] = 'article/click_like';
-$route['a/query/archive'] = 'article/click_archive';
-$route['a/query/replylike'] = 'article/click_replylike';
-$route['a/query/article/reply'] = 'article/article_reply';
-$route['a/query/report/article'] = 'article/article_report';
-$route['a/query/report/reply'] = 'article/reply_report';
+// $route['a/query/likes'] = 'article/click_like';
+// $route['a/query/archive'] = 'article/click_archive';
+// $route['a/query/replylike'] = 'article/click_replylike';
+// $route['a/query/article/reply'] = 'article/article_reply';
+// $route['a/query/report/article'] = 'article/article_report';
+// $route['a/query/report/reply'] = 'article/reply_report';
 
 // 查詢單篇文章	(社會大眾版) a/hate/6399
-$route['a/(:any)/(:num)'] = 'article/view/$1/$2';
-$route['a/(:any)/(:num)/edit'] = 'article/get_article_edit/$1/$2';
-$route['p/(:any)p/(:num)'] = 'article/old_url_redirect/$1/$2';
+// $route['a/(:any)/(:num)'] = 'article/view/$1/$2';
+// $route['a/(:any)/(:num)/edit'] = 'article/get_article_edit/$1/$2';
+// $route['p/(:any)p/(:num)'] = 'article/old_url_redirect/$1/$2';
 
 
 // 舊版對應
-$route['guest/(:any)p/(:num)'] = 'article/old_url_redirect/$1/$2';
-$route['p/all'] = 'article/old_url_redirect';
+// $route['guest/(:any)p/(:num)'] = 'article/old_url_redirect/$1/$2';
+// $route['p/all'] = 'article/old_url_redirect';
 
 // (返回JSON)  a/query/article  接收POST
-$route['a/query/article'] = 'article/article_json';
-$route['a/query/reply'] = 'article/reply_json';
+// $route['a/query/article'] = 'article/article_json';
+// $route['a/query/reply'] = 'article/reply_json';
 
 // 其他 Other
 $route['other/feedback'] = 'other/feedback';
@@ -170,23 +170,23 @@ $route['other/problem/(:num)']  = 'other/problem_view/$1';
 $route['other/problem/item/(:num)'] = 'other/problem_view_json/$1';
 
 // 活動 activity
-$route['activity/join'] = 'activity/join';
-$route['activity/join/(:num)'] = 'activity/join_info/$1';
-$route['activity/join/confirm'] = 'activity/activity_join_json';
+// $route['activity/join'] = 'activity/join';
+// $route['activity/join/(:num)'] = 'activity/join_info/$1';
+// $route['activity/join/confirm'] = 'activity/activity_join_json';
 
 // ajax upload imgur
 $route['activity/ajax_upload_imgur'] = 'activity/ajax_upload_imgur';
 
 // 投票 vote
-$route['activity/vote'] = 'activity/vote';
-$route['activity/vote/(:num)'] = 'activity/activity_can_vote_list/$1';
-$route['activity/vote_info'] = 'activity/can_vote_activity_json';
-$route['activity/vote/item/(:num)'] = 'activity/activity_can_vote_list_json/$1';
-$route['activity/vote/confirm'] = 'activity/vote_confirm';
-$route['activity/vote/result/list'] = 'activity/vote_result_list'; // json
-$route['activity/result'] = 'activity/result'; // json
-$route['activity/result/(:num)'] = 'activity/result_item/$1'; // json
-$route['activity/result/item/info/(:num)'] = 'activity/result_item_info_json/$1';
+// $route['activity/vote'] = 'activity/vote';
+// $route['activity/vote/(:num)'] = 'activity/activity_can_vote_list/$1';
+// $route['activity/vote_info'] = 'activity/can_vote_activity_json';
+// $route['activity/vote/item/(:num)'] = 'activity/activity_can_vote_list_json/$1';
+// $route['activity/vote/confirm'] = 'activity/vote_confirm';
+// $route['activity/vote/result/list'] = 'activity/vote_result_list'; // json
+// $route['activity/result'] = 'activity/result'; // json
+// $route['activity/result/(:num)'] = 'activity/result_item/$1'; // json
+// $route['activity/result/item/info/(:num)'] = 'activity/result_item_info_json/$1';
 
                                         /* App */
 

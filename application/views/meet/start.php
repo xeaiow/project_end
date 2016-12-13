@@ -37,7 +37,7 @@
         <button class="ui button nav-blue notinverted basic grey" id="profile-hide"><i class="hide icon"></i> 隱藏姓名 <span>(<?php echo ($profile['nameIsHide'] == 1) ? "隱藏" : "顯示"; ?>)</span></button>
     </div>
 
-    <div class="ui segment">
+    <div class="ui segment" id="profile_data_container">
         <table class="ui very basic table">
             <tbody id="profile_data">
                 <tr>
@@ -318,14 +318,14 @@
 <div class="ui basic modal" id="firstmodal">
     <i class="close icon"></i>
     <div class="header">
-        太棒了，開始尋覓同好吧！
+        蒸蚌，開始尋覓同好吧！
     </div>
     <div class="image content">
         <div class="image">
             <i class="lab icon"></i>
         </div>
         <div class="description">
-            <p>只需按下「分析鍵」即可開始！</p>
+            <h3>現在只需按下「分析鍵」即可開始。</h3>
         </div>
     </div>
     <div class="actions">
@@ -380,7 +380,7 @@
         url: '//localhost/selene_ci/meet/istoday/query',
         dataType: 'json',
         error: function (xhr) {
-            errorMsg();
+
         },
         success: function (response) {
             var response = $.parseJSON(JSON.stringify(response));
@@ -397,7 +397,7 @@
             url: '//localhost/selene_ci/meet/profile/query',
             dataType: 'json',
             error: function (xhr) {
-                errorMsg();
+
             },
             success: function (response) {
                 var response = $.parseJSON(JSON.stringify(response));
@@ -413,6 +413,7 @@
                 else{
 
                     $("#lab").show();
+                    $("#profile_data_container").hide();
                     $("#picture").attr("src", '//i.imgur.com/p4vd7Tm.jpg');
                     $(".change-pic").addClass('disabled');
                     $("#firstmodal").modal('show');
@@ -438,7 +439,7 @@
             url: '//localhost/selene_ci/meet/dropOld/action',
             dataType: 'json',
             error: function (xhr) {
-                errorMsg();
+
             },
             success: function (response) {
                 lab();
@@ -478,7 +479,7 @@
                         picture      : 'http://graph.facebook.com/' + response.id + '/picture?type=large',
                     },
                     error: function (xhr) {
-                        errorMsg();
+
                     },
                     success: function (response) {
 
@@ -500,7 +501,7 @@
                         time : response.data[i].created_time,
                     },
                     error: function (xhr) {
-                        errorMsg();
+
                     },
                     success: function (response) {
 
@@ -540,7 +541,7 @@
                         cover       : ( response.cover == undefined ? '' : response.cover.source ),
                     },
                     error: function (xhr) {
-                        errorMsg();
+
                     },
                     success: function (response) {
 
@@ -566,7 +567,7 @@
                         description : ( response.data[i].description == undefined ? '' : cancelLn(response.data[i].description) ),
                     },
                     error: function (xhr) {
-                        errorMsg();
+
                     },
                     success: function (response) {
 
@@ -592,7 +593,7 @@
                             permalink_url   : response.data[i].permalink_url, // 影片網址
                         },
                         error: function (xhr) {
-                            errorMsg();
+
                         },
                         success: function (response) {
 
@@ -623,7 +624,7 @@
                     comments : comments.slice(0, -1),
                 },
                 error: function (xhr) {
-                    errorMsg();
+
                 },
                 success: function (response) {
 
@@ -649,7 +650,7 @@
                             createdtime     : response.feed.data[i].created_time,
                         },
                         error: function (xhr) {
-                            errorMsg();
+
                         },
                         success: function (response) {
 
@@ -678,7 +679,7 @@
                         cover    : response.data[i].cover.source, // 封面
                     },
                     error: function (xhr) {
-                        errorMsg();
+
                     },
                     success: function (response) {
 
@@ -702,7 +703,7 @@
                         name     : response.data[i].name, // 名稱
                     },
                     error: function (xhr) {
-                        errorMsg();
+
                     },
                     success: function (response) {
 
@@ -728,7 +729,7 @@
                         message  : cancelSp(response.data[i].message), // 貼文內容
                     },
                     error: function (xhr) {
-                        errorMsg();
+
                     },
                     success: function (response) {
 
@@ -759,7 +760,7 @@
                             street   : ( response.data[i].place.location.street == null ? '' : response.data[i].place.location.street ), // 地址
                         },
                         error: function (xhr) {
-                            errorMsg();
+
                         },
                         success: function (response) {
                             // var response = $.parseJSON(JSON.stringify(response));
@@ -806,7 +807,7 @@
         	url: '//localhost/selene_ci/meet/likes/query',
         	dataType: 'json',
         	error: function (xhr) {
-        		errorMsg();
+
         	},
         	success: function (response) {
         		var response = $.parseJSON(JSON.stringify(response));
@@ -826,7 +827,7 @@
         	url: '//localhost/selene_ci/meet/events/query',
         	dataType: 'json',
         	error: function (xhr) {
-        		errorMsg();
+
         	},
         	success: function (response) {
         		var response = $.parseJSON(JSON.stringify(response));
@@ -849,7 +850,7 @@
         	url: '//localhost/selene_ci/meet/places/query',
         	dataType: 'json',
         	error: function (xhr) {
-        		errorMsg();
+
         	},
         	success: function (response) {
         		var response = $.parseJSON(JSON.stringify(response));
@@ -874,7 +875,7 @@
     	url: '//localhost/selene_ci/meet/keywords/query',
     	dataType: 'json',
     	error: function (xhr) {
-    		errorMsg();
+
     	},
     	success: function (response) {
     		var response = $.parseJSON(JSON.stringify(response));

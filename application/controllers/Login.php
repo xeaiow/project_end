@@ -166,10 +166,10 @@ class Login extends CI_Controller {
 			else {
 
 				// ********* 郵件設定 *********
-				$this->email->from('www.selene.tw@gmail.com', '塞拉涅');
+				$this->email->from('www.selene.tw@gmail.com', 'Meet覓');
 				$this->email->to( $result['email'] );
 
-				$this->email->subject('歡迎註冊 Meet 覓');
+				$this->email->subject('歡迎註冊 Meet覓');
 				$this->email->message( $this->load->view('email/join_success', $result, TRUE ));
 				// ***************************
 
@@ -287,10 +287,10 @@ class Login extends CI_Controller {
 			if ( $result ) {
 
 				// ********* 郵件設定 *********
-				$this->email->from('www.selene.tw@gmail.com', '塞拉涅');
+				$this->email->from('www.selene.tw@gmail.com', 'Meet覓');
 				$this->email->to( $result['email'] );
 
-				$this->email->subject('歡迎註冊 Selene');
+				$this->email->subject('歡迎註冊 Meet覓');
 				$this->email->message( $this->load->view('email/join_success', $result, TRUE ));
 				// ***************************
 
@@ -351,10 +351,10 @@ class Login extends CI_Controller {
 				if ( $result ) {
 
 					// ********* 郵件設定 *********
-					$this->email->from('www.selene.tw@gmail.com', '塞拉涅');
+					$this->email->from('www.selene.tw@gmail.com', 'Meet覓');
 					$this->email->to( $result['email'] );
 
-					$this->email->subject('重設您的 Selene 密碼');
+					$this->email->subject('重設您的 Meet覓 密碼');
 					$this->email->message( $this->load->view('email/reset_password', $result, TRUE ));
 					// ***************************
 

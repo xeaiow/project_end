@@ -77,6 +77,23 @@
                             });
                         });
                     }
+                    else{
+
+                        Messenger().post({
+                            message: "加把勁吧！大家都離你太遠。",
+                            type: "info",
+                            showCloseButton: true,
+                            hideAfter: 5
+                        });
+
+                        $("#friends-list").append(
+                            '<div class="ui info message">' +
+                                '<div class="header">' +
+                                    '<i class="frown icon"></i> 還沒有人離你很近。' +
+                                '</div>' +
+                            '</div>'
+                        );
+                    }
                     // 計算使用者重複數
                     matchUser.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
 

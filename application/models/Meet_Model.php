@@ -316,7 +316,15 @@ class Meet_model extends CI_Model {
 
         $user  = $this->session->userdata('rndcode');
         $keywords = $this->input->post('keywords');
-        $query = $this->db->query('SELECT username, keywords, collections, field, itemid FROM meet_keywords WHERE keywords REGEXP ("' . implode("|",$keywords) . '") AND username != "'.$user.'"');
+
+        if (!empty($keywords)) {
+
+            $query = $this->db->query('SELECT username, keywords, collections, field, itemid FROM meet_keywords WHERE keywords REGEXP ("' . implode("|",$keywords) . '") AND username != "'.$user.'"');
+        }
+        else{
+            return false;
+        }
+
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 
@@ -454,7 +462,16 @@ class Meet_model extends CI_Model {
     public function get_selfPlace () {
 
         $id    = $this->input->post('id');
-        $query = $this->db->where('username', $id)->get('meet_place');
+        $user  = $this->session->userdata('rndcode');
+
+        if (!empty($id)) {
+
+            $query = $this->db->where('username', $id)->get('meet_place');
+        }
+        else{
+            $query = $this->db->where('username', $user)->get('meet_place');
+        }
+
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 
