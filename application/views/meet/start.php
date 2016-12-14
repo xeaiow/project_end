@@ -318,14 +318,14 @@
 <div class="ui basic modal" id="firstmodal">
     <i class="close icon"></i>
     <div class="header">
-        蒸蚌，開始尋覓同好吧！
+
     </div>
     <div class="image content">
         <div class="image">
             <i class="lab icon"></i>
         </div>
         <div class="description">
-            <h3>現在只需按下「分析鍵」即可開始。</h3>
+            <h1>蒸蚌，按下「分析」鍵開始尋找同好吧！</h1>
         </div>
     </div>
     <div class="actions">
