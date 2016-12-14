@@ -1,6 +1,6 @@
 <div class="ui thirteen wide column">
 
-    <div class="ui segment bg1">
+    <div class="ui segment bg1" id="container">
         <div class="ui special cards centered">
 
             <div class="card">
@@ -519,6 +519,7 @@
         success();
 
         setTimeout(function(){ window.location.href = '//localhost:3000/?name=' + "<?=$rndcode?>"; }, 2500);
+        $("#container").addClass('loading');
     }
 
 
