@@ -272,3 +272,4 @@ $route['meet/friends/save'] = 'meet/setFriends';
 $route['meet/isfriend/query'] = 'meet/getIsFriends';
 $route['meet/keywordsExplan/query'] = 'meet/getKeywordsExplan';
 $route['meet/userFansPageInfo/query'] = 'meet/getUserFansPageInfo';
+$route['meet/islab/save'] = 'meet/setiSLab';

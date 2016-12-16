@@ -337,6 +337,28 @@
     </div>
 </div>
 
+<!-- 分析完成modal -->
+<div class="ui basic modal" id="labsuccess">
+    <i class="close icon"></i>
+    <div class="header">
+    </div>
+    <div class="image content">
+        <div class="image">
+            <i class="checkmark icon"></i>
+        </div>
+        <div class="description">
+            <h1>太神啦！已經完成分析並可開始尋覓了。</h1>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="two fluid ui inverted buttons">
+            <div class="ui ok nav-blue notinverted inverted button" id="labsuccess-check">
+                好哦
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     // modal
@@ -346,6 +368,10 @@
 
     $("#profile-edit-password-setup").click(function(){
         $("#profile-edit-password-second-modal").modal('show');
+    });
+
+    $("#labsuccess-check").click(function(){
+        window.location.href = '//localhost/selene_ci/start';
     });
 
     FB.init({
@@ -409,6 +435,20 @@
                     }
                     $("#picture").attr("src", ( response.result[0].pic != '' ? response.result[0].pic : '//i.imgur.com/p4vd7Tm.jpg' ) );
 
+                    if (response.result[0].isLab == "0") {
+
+                        $("#labsuccess").modal('show');
+
+                        $.ajax({
+                            type: 'post',
+                            url: '//localhost/selene_ci/meet/islab/save',
+                            dataType: 'json',
+                            error: function (xhr) {
+                            },
+                            success: function (response) {
+                            }
+                        });
+                    }
                 }
                 else{
 
@@ -520,6 +560,7 @@
 
         setTimeout(function(){ window.location.href = '//localhost:3000/?name=' + "<?=$rndcode?>"; }, 2500);
         $("#container").addClass('loading');
+
     }
 
 
@@ -783,8 +824,8 @@
     }
     function success () {
         Messenger().post({
-            message: "成功",
-            type: "info",
+            message: "分析中...",
+            type: "success",
             showCloseButton: true,
             hideAfter: 0
         });
@@ -816,7 +857,7 @@
         		if (response.status == true) {
 
                     $.each(response.result, function(i) {
-                        $("#iLikeFans").append('<a href="//localhost/selene_ci/meet/fans/' + response.result[i].pageId + '" target="_self" class="ui basic label" title="" ng-repeat="likes in likesList">' + response.result[i].name + '</a>');
+                        $("#iLikeFans").append('<a href="//localhost/selene_ci/meet/fans/' + response.result[i].pageId + '" target="_self" class="ui basic label" title="" ng-repeat="likes in likesList">' + response.result[i].name + '</a><br />');
                     });
                 }
         	}

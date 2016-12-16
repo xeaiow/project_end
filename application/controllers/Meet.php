@@ -450,6 +450,16 @@ class Meet extends CI_Controller {
 		echo json_encode($response, JSON_UNESCAPED_UNICODE);
 	}
 
+	public function setiSLab () {
+
+		$result = $this->meet_model->set_islab();
+
+		( $result == true ? $response['status'] = true : $response['status'] = false );
+
+		echo json_encode($response, JSON_UNESCAPED_UNICODE);
+
+	}
+
 	// 聊天介面 - 擷取該使用者資料
 	public function getChatProfile () {
 

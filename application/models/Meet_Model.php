@@ -442,6 +442,15 @@ class Meet_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array() : false;
     }
 
+    // 把分析設已分析過
+    public function set_islab () {
+
+        $user  = $this->session->userdata('rndcode');
+        $result = $this->db->query('UPDATE meet_profile SET isLab = 1 WHERE rndcode = "'.$user.'"');
+
+        return ($this->db->affected_rows() == 1) ? true : false;
+    }
+
     // 判斷這三天是否已經分析過
     public function is_today () {
 

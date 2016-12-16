@@ -2,7 +2,7 @@
     <div class="ui sixteen wide column">
         <div class="ui grid">
 
-            <div class="four wide column">
+            <div class="four wide computer tablet only column">
 
                 <div class="ui top attached tabular menu">
                     <a class="item active" data-tab="first"><i class="user icon"></i></a>

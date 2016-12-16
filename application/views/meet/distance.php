@@ -143,7 +143,7 @@
                             if (response.status == true) {
                                 $("#friends-list").append(
                                     '<div class="column">' +
-                                        '<div class="ui card fluid">' +
+                                        '<div class="ui card fluid" style="min-height:350px;max-height:350px;">' +
                                             '<a class="ui" target="_self" href="' + '//localhost/selene_ci/chat/' + response.result[0].rndcode +'">' +
                                                 '<div class="image-square image radius-4" style="background-image: url(' + response.result[0].pic + ')"></div>' +
                                             '</a>' +
