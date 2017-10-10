@@ -1,27 +1,13 @@
 # 105 學年度畢業專題複審 - Meet覓
 <img src="http://i.imgur.com/1VxbDzN.png" width="400">
 
-> CSS
->> Semantic UI
+#### [詳細請至形象網頁預覽](http://140.135.67.5/Project/102GP/B12/)
 
-> API
->> Graph API
->> Google Map API
+# 套件
+[NodeJieba](https://github.com/yanyiwu/nodejieba) 字詞分析系統
 
-> 前端
->> JQuery
-
-> 後端
->> NodeJS
->> Codeigniter
->> Firebase
->> AngularJS
-
-> 套件
->> [NodeJieba](https://github.com/yanyiwu/nodejieba) 字詞分析系統
-
-> 辭庫
->> 各大輸入法擷取
+# 辭庫
+各大輸入法擷取，日後新興詞彙將採爬蟲方式至流行論壇擷取。
 
 
 # 動機
